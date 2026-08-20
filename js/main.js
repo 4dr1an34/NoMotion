@@ -399,7 +399,7 @@
             const diff = touchStartY - touchEndY;
             const now = Date.now();
 
-            if (Math.abs(diff) > 40 && (now - lastScrollStepTime > 150)) {
+            if (Math.abs(diff) > 35 && (now - lastScrollStepTime > 140)) {
                 rotateStep(diff > 0 ? 1 : -1);
                 lastScrollStepTime = now;
                 touchStartY = touchEndY;
@@ -407,7 +407,7 @@
         }, { passive: true });
 
         /* ==========================================================================
-           VOLLFLÄCHIGER KOORDINATEN-RAYCASTER FÜR 100% PERFEKTE HITBOXEN IM 3D-RAUM
+           VOLLFLÄCHIGER KOORDINATEN-RAYCASTER FÜR MOUSE-HOVER IM 3D-RAUM
            ========================================================================== */
         fullscreenMenu.addEventListener('mousemove', (e) => {
             if (!fullscreenMenu.classList.contains('is-open')) return;
@@ -421,7 +421,6 @@
                 if (!link) continue;
 
                 const rect = link.getBoundingClientRect();
-                // Großzügige 2D-Bounding-Box über das gesamte Wort
                 if (mx >= rect.left - 15 && mx <= rect.right + 15 && my >= rect.top - 8 && my <= rect.bottom + 8) {
                     foundIdx = i;
                     break;
@@ -455,9 +454,32 @@
             }
         }, { passive: true });
 
-        // Klick-Handler über gesamte 2D-Bounding-Box
+        // Direkte Klick-Handler für alle Menü-Links (Mobil & Desktop 100% zuverlässig)
+        wheelItems.forEach((item) => {
+            const link = item.querySelector('.wheel-link');
+            if (!link) return;
+
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+                if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+                    toggleMenu(true);
+                } else {
+                    toggleMenu(true);
+                    window.location.href = href;
+                }
+            });
+        });
+
+        // Globaler Klick-Handler für Raycaster & Backdrop-Klick zum Schließen
         fullscreenMenu.addEventListener('click', (e) => {
             if (!fullscreenMenu.classList.contains('is-open')) return;
+
+            // Wenn auf einen Link oder dessen Kind geklickt wurde, wurde das bereits oben behandelt
+            if (e.target.closest('.wheel-link')) return;
 
             const mx = e.clientX;
             const my = e.clientY;
@@ -467,7 +489,7 @@
                 if (!link) continue;
 
                 const rect = link.getBoundingClientRect();
-                if (mx >= rect.left - 15 && mx <= rect.right + 15 && my >= rect.top - 8 && my <= rect.bottom + 8) {
+                if (mx >= rect.left - 20 && mx <= rect.right + 20 && my >= rect.top - 12 && my <= rect.bottom + 12) {
                     const href = link.getAttribute('href');
                     if (href) {
                         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -484,7 +506,7 @@
             }
 
             // Klick auf den linken/freien Hintergrund schließt das Menü
-            if (!e.target.closest('.wheel-stage')) {
+            if (!e.target.closest('.wheel-stage') && !e.target.closest('.navbar')) {
                 toggleMenu(true);
             }
         });
@@ -522,11 +544,11 @@
             }
         }
 
-        hamburgerBtn.onclick = function (e) {
+        hamburgerBtn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
             toggleMenu();
-        };
+        });
 
         requestAnimationFrame(renderWheel);
     }
