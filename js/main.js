@@ -113,7 +113,8 @@
             // Responsive framing: on desktop landscape use cover; on mobile portrait use intelligent contain-scale
             let ratio;
             if (cw < ch) {
-                ratio = Math.min((cw / iw) * 1.75, (ch / ih) * 0.92);
+                // Mobile Portrait: Ausgewogene, elegante Skalierung (Kamera dominiert nicht den ganzen Screen & verdeckt NOMOTION / Telemetrie nicht)
+                ratio = Math.min((cw / iw) * 1.18, (ch / ih) * 0.44);
             } else {
                 ratio = Math.max(cw / iw, ch / ih);
             }
