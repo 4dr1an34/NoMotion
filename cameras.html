@@ -289,7 +289,11 @@
             if (degBadge) degBadge.textContent = activeData.deg;
 
             thumbButtons.forEach((btn, idx) => {
-                btn.classList.toggle('is-active', idx === currentAngleIndex);
+                const isActive = (idx === currentAngleIndex);
+                btn.classList.toggle('is-active', isActive);
+                if (isActive) {
+                    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
             });
         }
 

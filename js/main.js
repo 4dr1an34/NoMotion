@@ -110,7 +110,14 @@
             const ih = source.naturalHeight || source.videoHeight || source.height || 1080;
             if (!iw || !ih) return;
 
-            const ratio = Math.max(cw / iw, ch / ih);
+            // Responsive framing: on desktop landscape use cover; on mobile portrait use intelligent contain-scale
+            let ratio;
+            if (cw < ch) {
+                ratio = Math.min((cw / iw) * 1.75, (ch / ih) * 0.92);
+            } else {
+                ratio = Math.max(cw / iw, ch / ih);
+            }
+
             const nw = iw * ratio;
             const nh = ih * ratio;
             const nx = (cw - nw) * 0.5;
