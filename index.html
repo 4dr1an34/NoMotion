@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoMotion — Anamorphic Swiss Optics & Camera Systems</title>
+
+    <!-- Google Fonts: Bitcount Single, Stack Sans Notch, Handjet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="css/style.css?v=5.1">
+</head>
+
+<body>
+    <!-- Top Floating Swiss Header -->
+    <header class="header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/icons/logo-dark.svg" alt="noMotion Logo" class="nav-logo">
+            </a>
+
+            <!-- Swiss Precision Technical Menu Button -->
+            <button id="hamburgerBtn" class="menu-btn" aria-label="Navigation umschalten" aria-expanded="false">
+                <span class="menu-btn-text">MENU</span>
+                <div class="menu-btn-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Infinite 3D Rotary Wheel Navigation Overlay with Dark Blur -->
+    <div id="fullscreenMenu" class="fullscreen-menu" data-lenis-prevent aria-hidden="true">
+        <div class="wheel-stage">
+            <div class="wheel-cylinder" id="wheelCylinder">
+                <div class="wheel-item" data-index="0">
+                    <a href="index.html" class="wheel-link active">
+                        <span class="wheel-num">01 //</span>
+                        <span>System Overview</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="1">
+                    <a href="optics.html" class="wheel-link">
+                        <span class="wheel-num">02 //</span>
+                        <span>Optics & Lenses</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="2">
+                    <a href="cameras.html" class="wheel-link">
+                        <span class="wheel-num">03 //</span>
+                        <span>Camera Systems</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="3">
+                    <a href="footage.html" class="wheel-link">
+                        <span class="wheel-num">04 //</span>
+                        <span>Footage Gallery</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="4">
+                    <a href="specs.html" class="wheel-link">
+                        <span class="wheel-num">05 //</span>
+                        <span>Technical Specs</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="5">
+                    <a href="contact.html" class="wheel-link">
+                        <span class="wheel-num">06 //</span>
+                        <span>Studio Inquiries</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrollable Video Canvas Hero Section (Smooth Slower Cinema Scrub) -->
+    <section class="video-hero-track" id="videoHeroTrack">
+        <div class="video-hero-sticky">
+            <!-- Massive Brand Typography Layer (BEHIND Camera, on white background) -->
+            <div class="hero-bg-brand-layer">
+                <span class="hero-bg-brand-text">NOMOTION</span>
+            </div>
+
+            <!-- 77-Frame High-Performance Cinema Canvas (IN FRONT of text) -->
+            <canvas id="videoCanvas" class="video-canvas"></canvas>
+
+            <!-- Weicher Blur-Blend oben (Weiß zu Video) -->
+            <div class="video-hero-top-blend"></div>
+
+            <!-- Weicher Blur-Blend unten (Video zu Weiß) -->
+            <div class="video-hero-bottom-blend"></div>
+
+            <!-- Kamera-Sucher Markierungen (2.39:1 Anamorphic Frame Guides) -->
+            <div class="viewfinder-frame">
+                <div class="vf-corner vf-tl"></div>
+                <div class="vf-corner vf-tr"></div>
+                <div class="vf-corner vf-bl"></div>
+                <div class="vf-corner vf-br"></div>
+                <div class="vf-crosshair"></div>
+            </div>
+
+            <!-- Minimalistisches Flankierendes Layout (Symmetrische Telemetrie Links & Rechts) -->
+            <div class="hero-flank-container">
+                <!-- Linke Flanke: Optische System-Spezifikationen -->
+                <div class="hero-flank hero-flank-left">
+                    <div class="hero-spec-item">
+                        <span class="hero-spec-label">SERIES ARCHITECTURE</span>
+                        <span class="hero-spec-val">ANAMORPHIC PRIME</span>
+                    </div>
+                    <div class="hero-spec-item">
+                        <span class="hero-spec-label">OPTICAL ORIGIN</span>
+                        <span class="hero-spec-val">ZÜRICH // SWITZERLAND</span>
+                    </div>
+                    <div class="hero-spec-item">
+                        <span class="hero-spec-label">CALIBRATION LEVEL</span>
+                        <span class="hero-spec-val">SUB-MICRON MTF 8K+</span>
+                    </div>
+                </div>
+
+                <!-- Rechte Flanke: Kamera- & Sensor-Spezifikationen -->
+                <div class="hero-flank hero-flank-right">
+                    <div class="hero-spec-item">
+                        <span class="hero-spec-label">SQUEEZE RATIO</span>
+                        <span class="hero-spec-val">1.8X ANAMORPHIC</span>
+                    </div>
+                    <div class="hero-spec-item">
+                        <span class="hero-spec-label">OPTICAL COATING</span>
+                        <span class="hero-spec-val">TITANIUM NANO-MULTI</span>
+                    </div>
+                    <div class="hero-spec-item">
+                        <span class="hero-spec-label">SENSOR COVERAGE</span>
+                        <span class="hero-spec-val">LARGE FORMAT 8K RAW</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Below Hero: Infinite Interactive Optical Stream -->
+    <main class="page-container stream-page-container">
+        <section class="stream-hero-header">
+            <div class="stream-title-group">
+                <span class="tag-badge">SYSTEMS & ARCHITECTURE // 2026</span>
+                <h2>Schweizer Optik-Exzellenz für anspruchsvolle Cineasten.</h2>
+                <p class="subtitle">
+                    NoMotion schließt die Lücke zwischen Vintage-Anamorphotik und moderner 8K-Auflösung. Unsere
+                    Linsensätze
+                    und Kamerakomponenten werden im Zürcher Labor auf submikroskopische Toleranzen kalibriert.
+                </p>
+            </div>
+            <div class="stream-control-badge" id="streamControlBadge" title="Klicken zum Pausieren/Fortsetzen">
+                <span class="stream-live-dot"></span>
+                <span class="stream-status-text" id="streamStatusText">STREAM // ACTIVE (KLICKEN ZUM STOPPEN)</span>
+            </div>
+        </section>
+
+        <!-- Unendlicher horizontaler Karten-Stream -->
+        <div class="stream-viewport-wrapper">
+            <div class="stream-fade-edge stream-fade-left"></div>
+            <div class="stream-fade-edge stream-fade-right"></div>
+
+            <div class="stream-viewport" id="streamViewport">
+                <div class="stream-track" id="streamTrack">
+                    <!-- Karte 01 -->
+                    <article class="stream-card" data-index="0">
+                        <div class="stream-card-inner">
+                            <div class="stream-card-head">
+                                <span class="card-meta">SERIES // 01</span>
+                                <span class="card-pill">1.8X ANAMORPHIC</span>
+                            </div>
+                            <h3 class="card-title">Prime Anamorphics</h3>
+                            <p class="card-desc">
+                                1.8x und 2.0x Squeeze-Faktoren mit organischem Bokeh, horizontalem Streak-Verhalten und
+                                extrem hoher Randauflösung bis 8K+ Großformat.
+                            </p>
+                            <div class="card-specs-mini">
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">APERTURE</span>
+                                    <span class="mini-spec-val">T1.5 – T22</span>
+                                </div>
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">MOUNT</span>
+                                    <span class="mini-spec-val">PL & LPL CINE</span>
+                                </div>
+                            </div>
+                            <div class="stream-card-footer">
+                                <span class="stream-spec-badge">T1.5 • PL / LPL</span>
+                                <a href="optics.html" class="stream-card-link" onclick="event.stopPropagation();">Linsen
+                                    entdecken <span class="link-arr">→</span></a>
+                            </div>
+                            <div class="card-inspect-bar">
+                                <span class="inspect-dot"></span>
+                                <span class="inspect-text">KLICKEN ZUM VERKLEINERN</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Karte 02 -->
+                    <article class="stream-card" data-index="1">
+                        <div class="stream-card-inner">
+                            <div class="stream-card-head">
+                                <span class="card-meta">SYSTEMS // 02</span>
+                                <span class="card-pill">8K SENSOR</span>
+                            </div>
+                            <h3 class="card-title">Sensor Integration</h3>
+                            <p class="card-desc">
+                                Vollformat- und Super35-Kamerakörper mit modularen Mount-Optionen (PL, LPL, E-Mount) und
+                                integriertem Lens-Metadata-Protokoll.
+                            </p>
+                            <div class="card-specs-mini">
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">DYNAMIC RANGE</span>
+                                    <span class="mini-spec-val">16+ STOPS RAW</span>
+                                </div>
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">ELECTRONIC ND</span>
+                                    <span class="mini-spec-val">0.6 – 2.4 (2-8 STOPS)</span>
+                                </div>
+                            </div>
+                            <div class="stream-card-footer">
+                                <span class="stream-spec-badge">e-ND • 16-BIT RAW</span>
+                                <a href="cameras.html" class="stream-card-link"
+                                    onclick="event.stopPropagation();">Kameras ansehen <span
+                                        class="link-arr">→</span></a>
+                            </div>
+                            <div class="card-inspect-bar">
+                                <span class="inspect-dot"></span>
+                                <span class="inspect-text">KLICKEN ZUM VERKLEINERN</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Karte 03 -->
+                    <article class="stream-card" data-index="2">
+                        <div class="stream-card-inner">
+                            <div class="stream-card-head">
+                                <span class="card-meta">LAB // 03</span>
+                                <span class="card-pill">SUB-MICRON</span>
+                            </div>
+                            <h3 class="card-title">Optical Calibration</h3>
+                            <p class="card-desc">
+                                Mikrometergenaue Justierung der optischen Achsen, Collimator-Prüfung und reflexionsarme
+                                Swiss-Nano-Vergütung im Zürcher Reinraum.
+                            </p>
+                            <div class="card-specs-mini">
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">MTF TOLERANZ</span>
+                                    <span class="mini-spec-val">0.002mm SUB-MICRON</span>
+                                </div>
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">LABOR ORT</span>
+                                    <span class="mini-spec-val">ISO KLASSE 5 ZÜRICH</span>
+                                </div>
+                            </div>
+                            <div class="stream-card-footer">
+                                <span class="stream-spec-badge">0.002mm MTF • ZÜRICH</span>
+                                <a href="specs.html" class="stream-card-link"
+                                    onclick="event.stopPropagation();">Spezifikationen <span
+                                        class="link-arr">→</span></a>
+                            </div>
+                            <div class="card-inspect-bar">
+                                <span class="inspect-dot"></span>
+                                <span class="inspect-text">KLICKEN ZUM VERKLEINERN</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Karte 04 -->
+                    <article class="stream-card" data-index="3">
+                        <div class="stream-card-inner">
+                            <div class="stream-card-head">
+                                <span class="card-meta">HARDWARE // 04</span>
+                                <span class="card-pill">TITANIUM CINE</span>
+                            </div>
+                            <h3 class="card-title">Aerospace Chassis</h3>
+                            <p class="card-desc">
+                                Thermisch isoliertes Titan- und Kohlefaser-Gehäuse für absolute Fokus-Stabilität unter
+                                extremen Drehbedingungen von -30°C bis +55°C.
+                            </p>
+                            <div class="card-specs-mini">
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">MATERIAL</span>
+                                    <span class="mini-spec-val">TI-6AL-4V & CARBON</span>
+                                </div>
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">TEMPERATUR</span>
+                                    <span class="mini-spec-val">-30°C BIS +55°C</span>
+                                </div>
+                            </div>
+                            <div class="stream-card-footer">
+                                <span class="stream-spec-badge">TI-6AL-4V • CARBON</span>
+                                <a href="specs.html" class="stream-card-link" onclick="event.stopPropagation();">Chassis
+                                    Details <span class="link-arr">→</span></a>
+                            </div>
+                            <div class="card-inspect-bar">
+                                <span class="inspect-dot"></span>
+                                <span class="inspect-text">KLICKEN ZUM VERKLEINERN</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Karte 05 -->
+                    <article class="stream-card" data-index="4">
+                        <div class="stream-card-inner">
+                            <div class="stream-card-head">
+                                <span class="card-meta">FIRMWARE // 05</span>
+                                <span class="card-pill">NEURAL PIPELINE</span>
+                            </div>
+                            <h3 class="card-title">Real-Time Metadata</h3>
+                            <p class="card-desc">
+                                Frame-genaue Erfassung von Verzeichnung, Vignettierung und Fokusdistanz für nahtlose
+                                VFX- und Unreal Engine In-Camera-Integration.
+                            </p>
+                            <div class="card-specs-mini">
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">PROTOKOLL</span>
+                                    <span class="mini-spec-val">SMPTE 2110 / FREED</span>
+                                </div>
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">LATENZ</span>
+                                    <span class="mini-spec-val">&lt; 1.2ms REAL-TIME</span>
+                                </div>
+                            </div>
+                            <div class="stream-card-footer">
+                                <span class="stream-spec-badge">SMPTE 2110 • LOW-LATENCY</span>
+                                <a href="footage.html" class="stream-card-link" onclick="event.stopPropagation();">VFX
+                                    Footage <span class="link-arr">→</span></a>
+                            </div>
+                            <div class="card-inspect-bar">
+                                <span class="inspect-dot"></span>
+                                <span class="inspect-text">KLICKEN ZUM VERKLEINERN</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Karte 06 -->
+                    <article class="stream-card" data-index="5">
+                        <div class="stream-card-inner">
+                            <div class="stream-card-head">
+                                <span class="card-meta">COATING // 06</span>
+                                <span class="card-pill">NANO MULTI</span>
+                            </div>
+                            <h3 class="card-title">Streak & Flare Tuning</h3>
+                            <p class="card-desc">
+                                Selektive Antireflex-Beschichtung für warme, charaktervolle Lichtkanten ohne
+                                Kontrastverlust in tiefen Schattenpartien.
+                            </p>
+                            <div class="card-specs-mini">
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">TRANSMISSION</span>
+                                    <span class="mini-spec-val">99.85% OPTICAL</span>
+                                </div>
+                                <div class="mini-spec-item">
+                                    <span class="mini-spec-label">STREAK FLARE</span>
+                                    <span class="mini-spec-val">CUSTOM HORIZONTAL</span>
+                                </div>
+                            </div>
+                            <div class="stream-card-footer">
+                                <span class="stream-spec-badge">CUSTOM FLARE • 99.8%</span>
+                                <a href="contact.html" class="stream-card-link"
+                                    onclick="event.stopPropagation();">Test-Dreh anfragen <span
+                                        class="link-arr">→</span></a>
+                            </div>
+                            <div class="card-inspect-bar">
+                                <span class="inspect-dot"></span>
+                                <span class="inspect-text">KLICKEN ZUM VERKLEINERN</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
+        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="js/main.js?v=5.1"></script>
+</body>
+
+</html>

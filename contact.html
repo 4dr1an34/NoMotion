@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Inquiries &amp; Production Configurator — NoMotion</title>
+
+    <!-- Google Fonts: Bitcount Single, Stack Sans Notch, Handjet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="css/style.css?v=5.1">
+</head>
+
+<body>
+    <!-- Top Floating Swiss Header -->
+    <header class="header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/icons/logo-dark.svg" alt="noMotion Logo" class="nav-logo">
+            </a>
+
+            <!-- Swiss Precision Technical Menu Button -->
+            <button id="hamburgerBtn" class="menu-btn" aria-label="Navigation umschalten" aria-expanded="false">
+                <span class="menu-btn-text">MENU</span>
+                <div class="menu-btn-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Infinite 3D Rotary Wheel Navigation Overlay with Dark Blur -->
+    <div id="fullscreenMenu" class="fullscreen-menu" data-lenis-prevent aria-hidden="true">
+        <div class="wheel-stage">
+            <div class="wheel-cylinder" id="wheelCylinder">
+                <div class="wheel-item" data-index="0">
+                    <a href="index.html" class="wheel-link">
+                        <span class="wheel-num">01 //</span>
+                        <span>System Overview</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="1">
+                    <a href="optics.html" class="wheel-link">
+                        <span class="wheel-num">02 //</span>
+                        <span>Optics &amp; Lenses</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="2">
+                    <a href="cameras.html" class="wheel-link">
+                        <span class="wheel-num">03 //</span>
+                        <span>Camera Systems</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="3">
+                    <a href="footage.html" class="wheel-link">
+                        <span class="wheel-num">04 //</span>
+                        <span>Footage Gallery</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="4">
+                    <a href="specs.html" class="wheel-link">
+                        <span class="wheel-num">05 //</span>
+                        <span>Technical Specs</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="5">
+                    <a href="contact.html" class="wheel-link active">
+                        <span class="wheel-num">06 //</span>
+                        <span>Studio Inquiries</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <section class="hero-minimal reveal">
+            <span class="tag-badge">STUDIO // 06 • SWISS OPTICAL CONSULTATION</span>
+            <h1>Model 100 Reservierung &amp; Test-Dreh.</h1>
+            <p class="subtitle">
+                Asymmetrische Buchungs-Zentrale. Konfiguriere dein NoMotion Model 100 Paket in Echtzeit
+                oder vereinbare einen persönlichen Prüftermin im Zürcher Reinraum-Labor.
+            </p>
+        </section>
+
+        <!-- Asymmetric Split: Zürich Lab Status Sidebar vs Interactive Configurator -->
+        <div class="contact-terminal-split">
+
+            <!-- Left Sticky Lab Telemetry Sidebar -->
+            <aside class="lab-status-sidebar">
+
+                <div class="lab-status-card reveal reveal-left stagger-1">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="card-meta" style="margin: 0;">ZÜRICH CLEANROOM</span>
+                        <span class="tag-badge lab-heartbeat"
+                            style="background: rgba(0,255,136,0.1); color: #008844; border-color: rgba(0,255,136,0.3);">
+                            ● ONLINE
+                        </span>
+                    </div>
+                    <h3 class="card-title" style="margin: 0;">Labor HQ Schweiz</h3>
+                    <div
+                        style="font-family: var(--font-small); font-size: 0.85rem; line-height: 1.6; color: var(--text-muted);">
+                        NoMotion Optical Systems AG<br>
+                        Technoparkstrasse 1<br>
+                        CH-8005 Zürich, Schweiz
+                    </div>
+                    <div
+                        style="border-top: 1px solid rgba(0,0,0,0.08); padding-top: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; font-family: var(--font-small); font-size: 0.78rem;">
+                        <div><strong>LOKALE ZEIT:</strong> <span id="liveCetClock">--:--:-- CET</span></div>
+                        <div><strong>TELEFON:</strong> +41 44 892 01 00</div>
+                        <div><strong>E-MAIL:</strong> labor@nomotion-optics.ch</div>
+                    </div>
+                </div>
+
+                <!-- Lab Image Placeholder Frame with Isometric Camera -->
+                <div class="swiss-exhibition-stage reveal reveal-left stagger-2" style="margin-top: 1.25rem; padding: 1.5rem;">
+                    <span class="swiss-stage-corner-notch top-left">[ + 0.002mm ]</span>
+                    <span class="swiss-stage-corner-notch top-right">HANDCRAFTED</span>
+
+                    <img src="assets/images/camera_05_isometric_transparent.png" alt="NoMotion Model 100 Swiss Design"
+                        class="swiss-stage-img image-blend-soft camera-float" style="max-height: 240px;">
+
+                    <div class="product-caption-row"
+                        style="width: 100%; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.75rem; margin-top: 0.4rem;">
+                        <span class="product-caption-tag">MODEL 100 // UNIBODY TITAN</span>
+                        <span class="product-caption-spec">ZÜRICH LAB</span>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- Right Interactive Production Configurator Terminal -->
+            <section class="production-configurator-box reveal reveal-right">
+
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 1.25rem;">
+                    <div>
+                        <span class="card-meta" style="margin-bottom: 0.2rem;">PRODUKTIONS-KONFIGURATOR</span>
+                        <h2 class="card-title" style="margin: 0;">Paket-Zusammenstellung</h2>
+                    </div>
+                    <span class="tag-badge">ECHTZEIT-BERECHNUNG</span>
+                </div>
+
+                <!-- Step 1: Format -->
+                <div class="config-step reveal stagger-1">
+                    <span class="config-step-title">1 // HARDWARE-EDITION</span>
+                    <div class="config-chips-group" id="formatGroup">
+                        <button class="config-chip-btn is-active" data-val="champagne">Champagner-Gold Titan
+                            Unibody</button>
+                        <button class="config-chip-btn" data-val="matte-black">Space-Black Matt Anodisiert</button>
+                        <button class="config-chip-btn" data-val="raw-titan">Raw Polished Titanium Edition</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Lens Set -->
+                <div class="config-step reveal stagger-2">
+                    <span class="config-step-title">2 // ZUBEHÖR-PAKET</span>
+                    <div class="config-chips-group" id="lensGroup">
+                        <button class="config-chip-btn is-active" data-weight="0.21" data-cases="1"
+                            data-name="Model 100 Solo (Kamera + 18mm f/2.0)">
+                            Model 100 Solo (Kamera + 18mm f/2.0)
+                        </button>
+                        <button class="config-chip-btn" data-weight="0.58" data-cases="1"
+                            data-name="Creator Kit (Kamera + Lederetui + 2x Akku)">
+                            Creator Kit (Kamera + Lederetui + 2x Akku)
+                        </button>
+                        <button class="config-chip-btn" data-weight="1.45" data-cases="1"
+                            data-name="Studio Rig (Kamera + Cage + SSD Hub + Griff)">
+                            Studio Rig (Kamera + Cage + SSD Hub + Griff)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Camera Mount -->
+                <div class="config-step reveal stagger-3">
+                    <span class="config-step-title">3 // SPEICHER-OPTION</span>
+                    <div class="config-chips-group" id="mountGroup">
+                        <button class="config-chip-btn is-active" data-val="512gb">512 GB High-Speed NVMe
+                            Internal</button>
+                        <button class="config-chip-btn" data-val="1tb">1 TB NVMe Internal</button>
+                        <button class="config-chip-btn" data-val="2tb">2 TB Extreme NVMe Internal</button>
+                    </div>
+                </div>
+
+                <!-- Live Calculated Kit Summary Bar -->
+                <div class="config-summary-bar reveal stagger-4">
+                    <div>
+                        <span
+                            style="font-family: var(--font-small); font-size: 0.72rem; font-weight: 800; color: var(--text-muted); display: block;">GEWÄHLTES
+                            PAKET:</span>
+                        <strong style="font-family: var(--font-heading); font-size: 1.05rem;"
+                            id="selectedPackageName">Model 100 Solo (Kamera + 18mm f/2.0)</strong>
+                    </div>
+                    <div style="display: flex; gap: 1.5rem;">
+                        <div>
+                            <span
+                                style="font-family: var(--font-small); font-size: 0.72rem; font-weight: 800; color: var(--text-muted); display: block;">GESAMTGEWICHT:</span>
+                            <strong style="font-family: var(--font-heading); font-size: 1.05rem;"
+                                id="totalWeightDisplay">0.21 KG</strong>
+                        </div>
+                        <div>
+                            <span
+                                style="font-family: var(--font-small); font-size: 0.72rem; font-weight: 800; color: var(--text-muted); display: block;">LIEFERUMFANG:</span>
+                            <strong style="font-family: var(--font-heading); font-size: 1.05rem;"
+                                id="totalCasesDisplay">1 FLIGHT BOX</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Contact Inputs -->
+                <form class="contact-form-grid reveal stagger-5" style="margin: 0;"
+                    onsubmit="event.preventDefault(); alert('Vielen Dank! Ihre Model 100 Reservierung wurde an das Zürcher Labor übermittelt. Wir kontaktieren Sie innerhalb von 24 Stunden.');">
+                    <div class="form-group">
+                        <label class="form-label" for="cName">NAME &amp; STUDIO / PRIVAT *</label>
+                        <input type="text" id="cName" class="form-input" placeholder="z. B. Christian Meier" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cMail">E-MAIL ADRESSE *</label>
+                        <input type="email" id="cMail" class="form-input" placeholder="name@production.ch" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label" for="cDate">GEWÜNSCHTER TEST-TERMIN ODER VERSANDADRESSE</label>
+                        <input type="text" id="cDate" class="form-input"
+                            placeholder="z. B. Laborbesuch in Zürich oder Vorbestellung...">
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="submit" class="config-submit-btn">
+                            <span>Model 100 unverbindlich anfragen</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                </form>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
+        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="js/main.js?v=5.1"></script>
+    <script>
+        // Live CET Clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('de-CH', { timeZone: 'Europe/Zurich' }) + ' CET';
+            const clockEl = document.getElementById('liveCetClock');
+            if (clockEl) clockEl.textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Configurator Chip Selection & Calculation
+        function initChipGroup(groupId, onSelect) {
+            const container = document.getElementById(groupId);
+            if (!container) return;
+            const buttons = container.querySelectorAll('.config-chip-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('is-active'));
+                    btn.classList.add('is-active');
+                    if (onSelect) onSelect(btn);
+                });
+            });
+        }
+
+        initChipGroup('formatGroup');
+        initChipGroup('mountGroup');
+        initChipGroup('lensGroup', (btn) => {
+            const weight = btn.getAttribute('data-weight');
+            const cases = btn.getAttribute('data-cases');
+            const name = btn.getAttribute('data-name');
+
+            document.getElementById('selectedPackageName').textContent = name;
+            // Weight animation is handled by initWeightCounter() in main.js
+            document.getElementById('totalCasesDisplay').textContent = cases + (cases === '1' ? ' FLIGHT BOX' : ' FLIGHT BOXES');
+        });
+    </script>
+</body>
+
+</html>

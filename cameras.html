@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Systems &amp; 360° Inspector — NoMotion</title>
+
+    <!-- Google Fonts: Bitcount Single, Stack Sans Notch, Handjet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="css/style.css?v=5.1">
+</head>
+
+<body>
+    <!-- Top Floating Swiss Header -->
+    <header class="header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/icons/logo-dark.svg" alt="noMotion Logo" class="nav-logo">
+            </a>
+
+            <!-- Swiss Precision Technical Menu Button -->
+            <button id="hamburgerBtn" class="menu-btn" aria-label="Navigation umschalten" aria-expanded="false">
+                <span class="menu-btn-text">MENU</span>
+                <div class="menu-btn-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Infinite 3D Rotary Wheel Navigation Overlay with Dark Blur -->
+    <div id="fullscreenMenu" class="fullscreen-menu" data-lenis-prevent aria-hidden="true">
+        <div class="wheel-stage">
+            <div class="wheel-cylinder" id="wheelCylinder">
+                <div class="wheel-item" data-index="0">
+                    <a href="index.html" class="wheel-link">
+                        <span class="wheel-num">01 //</span>
+                        <span>System Overview</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="1">
+                    <a href="optics.html" class="wheel-link">
+                        <span class="wheel-num">02 //</span>
+                        <span>Optics &amp; Lenses</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="2">
+                    <a href="cameras.html" class="wheel-link active">
+                        <span class="wheel-num">03 //</span>
+                        <span>Camera Systems</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="3">
+                    <a href="footage.html" class="wheel-link">
+                        <span class="wheel-num">04 //</span>
+                        <span>Footage Gallery</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="4">
+                    <a href="specs.html" class="wheel-link">
+                        <span class="wheel-num">05 //</span>
+                        <span>Technical Specs</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="5">
+                    <a href="contact.html" class="wheel-link">
+                        <span class="wheel-num">06 //</span>
+                        <span>Studio Inquiries</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <section class="hero-minimal reveal">
+            <span class="tag-badge">SYSTEMS // 03 • 360° MULTI-ANGLE TURNTABLE</span>
+            <h1>NoMotion Model 100 Studio-Cockpit.</h1>
+            <p class="subtitle">
+                Asymmetrische 360°-Inspektion und modulare Hardware-Architektur.
+                Ziehe direkt mit der Maus oder dem Finger über die Kamera, um alle 7 Winkel stufenlos im Studio zu
+                drehen.
+            </p>
+        </section>
+
+        <!-- Asymmetric 60/40 Split: 360° Studio Turntable vs Tech Tower -->
+        <div class="camera-cockpit-grid">
+
+            <!-- Left Column: 360° Interactive Drag Turntable & Cutaway Stage -->
+            <div class="sensor-mode-visualizer">
+
+                <!-- 360° Turntable Pedestal Showcase -->
+                <div class="turntable-stage-wrapper reveal reveal-scale">
+
+                    <!-- Drag Prompt Pill -->
+                    <div class="turntable-drag-prompt" id="dragPrompt">
+                        <span>⇄ ZIEHEN ZUM 360° DREHEN</span>
+                    </div>
+
+                    <!-- Direct Drag Area -->
+                    <div class="turntable-drag-surface" id="turntableSurface">
+                        <img src="assets/images/camera_01_front_transparent.png"
+                            alt="NoMotion Model 100 360 Turntable View" class="turntable-main-img image-blend-soft"
+                            id="activeTurntableImg">
+                    </div>
+
+                    <!-- Turntable Controls Bar (Filmstrip + Degrees Badge + Nav Arrows) -->
+                    <div class="turntable-controls-bar">
+
+                        <div style="display: flex; align-items: center; gap: 0.6rem;">
+                            <button class="turntable-nav-btn" id="prevAngleBtn"
+                                aria-label="Vorheriger Winkel">‹</button>
+                            <button class="turntable-nav-btn" id="nextAngleBtn" aria-label="Nächster Winkel">›</button>
+                            <span class="turntable-degree-badge" id="turntableDegBadge">0° // FRONT</span>
+                        </div>
+
+                        <!-- 7-Angle Thumbnails Filmstrip -->
+                        <div class="angle-thumbnails-strip" id="angleThumbnailsStrip">
+                            <button class="angle-thumb-btn is-active" data-index="0" title="0° Front Elevation">
+                                <img src="assets/images/camera_01_front_transparent.png" alt="0° Front">
+                            </button>
+                            <button class="angle-thumb-btn" data-index="1" title="45° Isometric Hero">
+                                <img src="assets/images/camera_05_isometric_transparent.png" alt="45° Isometric">
+                            </button>
+                            <button class="angle-thumb-btn" data-index="2" title="90° Side Profile">
+                                <img src="assets/images/camera_04_side_transparent.png" alt="90° Profile">
+                            </button>
+                            <button class="angle-thumb-btn" data-index="3" title="180° Rear Display">
+                                <img src="assets/images/camera_02_rear_transparent.png" alt="180° Rear">
+                            </button>
+                            <button class="angle-thumb-btn" data-index="4" title="225° Low Hero">
+                                <img src="assets/images/camera_06_low_hero_transparent.png" alt="225° Low Hero">
+                            </button>
+                            <button class="angle-thumb-btn" data-index="5" title="Top Dial &amp; Shutter">
+                                <img src="assets/images/camera_03_top_transparent.png" alt="Top Dial">
+                            </button>
+                            <button class="angle-thumb-btn" data-index="6" title="Bottom Mount">
+                                <img src="assets/images/camera_10_bottom_transparent.png" alt="Bottom Mount">
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Labeled Engineering Cutaway Architecture -->
+                <div class="reveal stagger-2" style="margin-top: 3.5rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div>
+                            <span class="card-meta" style="margin: 0;">INNENLEBEN // HARDWARE-ARCHITEKTUR</span>
+                            <h3 class="card-title" style="margin: 0;">Schnittmodell &amp; Komponentenaufbau</h3>
+                        </div>
+                        <span class="tag-badge">6 ELEMENTE • 4 GRUPPEN</span>
+                    </div>
+
+                    <!-- Swiss Exhibition Frame for Cutaway -->
+                    <div class="swiss-exhibition-stage cutaway-glow">
+                        <span class="swiss-stage-corner-notch top-left">[ + 0.002mm ]</span>
+                        <span class="swiss-stage-corner-notch top-right">CAD SECTION</span>
+                        <span class="swiss-stage-corner-notch bottom-left">ZÜRICH LAB</span>
+                        <span class="swiss-stage-corner-notch bottom-right">ISO 5 CLEANROOM</span>
+
+                        <img src="assets/images/camera_08_inside_cutaway_transparent.png"
+                            alt="NoMotion Camera Cutaway Inside Architecture" class="swiss-stage-img image-blend-soft">
+
+                        <div class="product-caption-row"
+                            style="width: 100%; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.85rem; margin-top: 0.5rem;">
+                            <span class="product-caption-tag">1-ZOLL CMOS SENSOR • MULTI-LAYER LOGIC BOARD</span>
+                            <span class="product-caption-spec">LI-ION PACK • SAPPHIRE FRONT</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Narrow Column: Tech Tower -->
+            <div class="camera-tech-tower">
+
+                <div class="tech-tower-card reveal reveal-right stagger-1">
+                    <span class="card-meta">SENSOR &amp; AUFLÖSUNG</span>
+                    <h3 class="card-title">1-Zoll High-Speed CMOS</h3>
+                    <p class="card-desc">
+                        Hochempfindlicher Sensor mit 15+ Blendenstufen Dynamikumfang, extrem schnellem Sensor-Readout
+                        und nativer 4K/60fps RAW Aufzeichnung.
+                    </p>
+                    <div
+                        style="display: flex; justify-content: space-between; font-family: var(--font-small); font-size: 0.8rem; font-weight: 800; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.75rem;">
+                        <span style="color: var(--text-muted);">PIXEL PITCH:</span>
+                        <span>2.4 µm DUAL GAIN</span>
+                    </div>
+                </div>
+
+                <div class="tech-tower-card reveal reveal-right stagger-2" style="background: rgba(0,0,0,0.015);">
+                    <span class="card-meta">HAPTIK // BEDIENUNG</span>
+                    <h3 class="card-title">Präzisions-Rändelrad</h3>
+                    <p class="card-desc">
+                        Aus dem Vollen gefrästes Aluminium-Drehrad mit 72 Klickstufen für stufenlose oder gerasterte
+                        Kontrolle von Blende, ISO oder Verschlusszeit.
+                    </p>
+                    <div
+                        style="display: flex; justify-content: space-between; font-family: var(--font-small); font-size: 0.8rem; font-weight: 800; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.75rem;">
+                        <span style="color: var(--text-muted);">MATERIAL:</span>
+                        <span style="color: var(--accent-amber);">ALU 7075-T6</span>
+                    </div>
+                </div>
+
+                <div class="tech-tower-card reveal reveal-right stagger-3">
+                    <span class="card-meta">SCHNITTSTELLEN</span>
+                    <h3 class="card-title">USB-C 3.2 Gen 2x2</h3>
+                    <p class="card-desc">
+                        20 Gbit/s Direktexport von 14-bit Cinema DNG RAW Daten auf externe SSDs und gleichzeitige
+                        Schnellladung via Power Delivery.
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <span class="tag-badge">20 GBIT/S RAW</span>
+                        <span class="tag-badge">USB-PD 45W</span>
+                    </div>
+                </div>
+
+                <div class="tech-tower-card reveal reveal-right stagger-4" style="background: #000000; color: #ffffff;">
+                    <span class="card-meta" style="color: var(--accent-amber);">SYSTEM-BEREITSCHAFT</span>
+                    <h3 class="card-title" style="color: #ffffff; margin: 0;">Model 100 Vorbestellung</h3>
+                    <p class="card-desc" style="color: rgba(255,255,255,0.7); font-size: 0.88rem;">
+                        Erste Produktions-Charge limitiert auf 150 nummerierte Einheiten aus der Zürcher Manufaktur.
+                    </p>
+                    <a href="contact.html" class="form-submit-btn cta-amber-pulse"
+                        style="margin: 0.5rem 0 0 0; background: var(--accent-amber); color: #000000; font-weight: 800;">
+                        Reservierung anfragen →
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
+        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="js/main.js?v=5.1"></script>
+    <script>
+        // 360 Interactive Turntable Logic
+        const cameraAngles = [
+            { img: 'assets/images/camera_01_front_transparent.png', deg: '0° // FRONT' },
+            { img: 'assets/images/camera_05_isometric_transparent.png', deg: '45° // ISOMETRIC' },
+            { img: 'assets/images/camera_04_side_transparent.png', deg: '90° // PROFILE' },
+            { img: 'assets/images/camera_02_rear_transparent.png', deg: '180° // REAR' },
+            { img: 'assets/images/camera_06_low_hero_transparent.png', deg: '225° // LOW HERO' },
+            { img: 'assets/images/camera_03_top_transparent.png', deg: 'TOP // DIAL' },
+            { img: 'assets/images/camera_10_bottom_transparent.png', deg: 'BTM // MOUNT' }
+        ];
+
+        let currentAngleIndex = 0;
+        const mainImg = document.getElementById('activeTurntableImg');
+        const degBadge = document.getElementById('turntableDegBadge');
+        const thumbButtons = document.querySelectorAll('.angle-thumb-btn');
+        const dragSurface = document.getElementById('turntableSurface');
+        const dragPrompt = document.getElementById('dragPrompt');
+
+        function setAngle(index) {
+            currentAngleIndex = (index + cameraAngles.length) % cameraAngles.length;
+            const activeData = cameraAngles[currentAngleIndex];
+
+            // Smooth transition on image change
+            if (mainImg) {
+                mainImg.style.opacity = '0';
+                mainImg.style.transform = 'scale(0.96)';
+                setTimeout(() => {
+                    mainImg.src = activeData.img;
+                    mainImg.style.opacity = '1';
+                    mainImg.style.transform = 'scale(1)';
+                }, 120);
+                mainImg.style.transition = 'opacity 0.15s ease, transform 0.2s ease';
+            }
+            if (degBadge) degBadge.textContent = activeData.deg;
+
+            thumbButtons.forEach((btn, idx) => {
+                btn.classList.toggle('is-active', idx === currentAngleIndex);
+            });
+        }
+
+        // Thumbnails Click
+        thumbButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.getAttribute('data-index'), 10);
+                setAngle(idx);
+            });
+        });
+
+        // Prev / Next Buttons
+        const prevBtn = document.getElementById('prevAngleBtn');
+        const nextBtn = document.getElementById('nextAngleBtn');
+        if (prevBtn) prevBtn.addEventListener('click', () => setAngle(currentAngleIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => setAngle(currentAngleIndex + 1));
+
+        // Drag to Rotate 360 Gesture
+        let isDragging = false;
+        let startX = 0;
+        const stepThreshold = 35; // Responsive sensitivity
+
+        if (dragSurface) {
+            dragSurface.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                dragSurface.setPointerCapture(e.pointerId);
+                if (dragPrompt) dragPrompt.style.opacity = '0';
+            });
+
+            dragSurface.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                const diffX = e.clientX - startX;
+                if (Math.abs(diffX) >= stepThreshold) {
+                    if (diffX > 0) {
+                        setAngle(currentAngleIndex + 1);
+                    } else {
+                        setAngle(currentAngleIndex - 1);
+                    }
+                    startX = e.clientX;
+                }
+            });
+
+            const stopDrag = () => { isDragging = false; };
+            dragSurface.addEventListener('pointerup', stopDrag);
+            dragSurface.addEventListener('pointercancel', stopDrag);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anamorphic Prime Series — NoMotion Optics</title>
+
+    <!-- Google Fonts: Bitcount Single, Stack Sans Notch, Handjet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="css/style.css?v=5.1">
+</head>
+
+<body>
+    <!-- Top Floating Swiss Header -->
+    <header class="header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/icons/logo-dark.svg" alt="noMotion Logo" class="nav-logo">
+            </a>
+
+            <!-- Swiss Precision Technical Menu Button -->
+            <button id="hamburgerBtn" class="menu-btn" aria-label="Navigation umschalten" aria-expanded="false">
+                <span class="menu-btn-text">MENU</span>
+                <div class="menu-btn-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Infinite 3D Rotary Wheel Navigation Overlay with Dark Blur -->
+    <div id="fullscreenMenu" class="fullscreen-menu" data-lenis-prevent aria-hidden="true">
+        <div class="wheel-stage">
+            <div class="wheel-cylinder" id="wheelCylinder">
+                <div class="wheel-item" data-index="0">
+                    <a href="index.html" class="wheel-link">
+                        <span class="wheel-num">01 //</span>
+                        <span>System Overview</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="1">
+                    <a href="optics.html" class="wheel-link active">
+                        <span class="wheel-num">02 //</span>
+                        <span>Optics &amp; Lenses</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="2">
+                    <a href="cameras.html" class="wheel-link">
+                        <span class="wheel-num">03 //</span>
+                        <span>Camera Systems</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="3">
+                    <a href="footage.html" class="wheel-link">
+                        <span class="wheel-num">04 //</span>
+                        <span>Footage Gallery</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="4">
+                    <a href="specs.html" class="wheel-link">
+                        <span class="wheel-num">05 //</span>
+                        <span>Technical Specs</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="5">
+                    <a href="contact.html" class="wheel-link">
+                        <span class="wheel-num">06 //</span>
+                        <span>Studio Inquiries</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <section class="hero-minimal reveal">
+            <span class="tag-badge">ATELIER // 02 • OPTICAL MACRO CRAFTSMANSHIP</span>
+            <h1>Optische Architektur &amp; Linsen.</h1>
+            <p class="subtitle">
+                Asymmetrisches Frontlinsen-Design mit 6 Glaselementen in 4 Gruppen, kreisrunder 7-Lamellen-Blende und
+                laser-polierter Entspiegelungs-Vergütung.
+            </p>
+        </section>
+
+        <!-- Asymmetrical Split: Sticky Focal Selector vs Hero Lens Stage -->
+        <div class="optics-atelier-split">
+
+            <!-- Left Sticky Lens Selector -->
+            <aside class="lens-focal-selector reveal reveal-left stagger-1">
+                <span class="hud-tag" style="align-self: flex-start;">BRENNWEITEN-SELECTOR</span>
+                <button class="focal-item-btn is-active" data-focal="18" data-aperture="f/2.0" data-fov="75.4°"
+                    data-close="0.15m" data-weight="210 g" data-front="34 mm">
+                    <span>Series 1 Prime</span>
+                    <span class="focal-tag">18MM // f/2.0</span>
+                </button>
+                <button class="focal-item-btn" data-focal="28" data-aperture="T2.0" data-fov="92.4°" data-close="0.45m"
+                    data-weight="1.25 kg" data-front="114 mm">
+                    <span>NM-28 Cine Wide</span>
+                    <span class="focal-tag">28MM // T2.0</span>
+                </button>
+                <button class="focal-item-btn" data-focal="40" data-aperture="T1.8" data-fov="74.2°" data-close="0.55m"
+                    data-weight="1.30 kg" data-front="114 mm">
+                    <span>NM-40 Standard</span>
+                    <span class="focal-tag">40MM // T1.8</span>
+                </button>
+                <button class="focal-item-btn" data-focal="50" data-aperture="T1.5" data-fov="62.8°" data-close="0.60m"
+                    data-weight="1.35 kg" data-front="114 mm">
+                    <span>NM-50 Master</span>
+                    <span class="focal-tag">50MM // T1.5</span>
+                </button>
+                <button class="focal-item-btn" data-focal="85" data-aperture="T2.0" data-fov="39.6°" data-close="0.85m"
+                    data-weight="1.50 kg" data-front="114 mm">
+                    <span>NM-85 Tele</span>
+                    <span class="focal-tag">85MM // T2.0</span>
+                </button>
+
+                <!-- Live Lens Telemetry Readout -->
+                <div class="lens-telemetry-readout">
+                    <div class="telemetry-row">
+                        <span class="telemetry-k">HORIZONTAL FOV</span>
+                        <span class="telemetry-v" id="telemetryFov">75.4° WEITWINKEL</span>
+                    </div>
+                    <div class="telemetry-row">
+                        <span class="telemetry-k">MAX LICHTSTÄRKE</span>
+                        <span class="telemetry-v" id="telemetryAperture">f/2.0 ULTRA-SPEED</span>
+                    </div>
+                    <div class="telemetry-row">
+                        <span class="telemetry-k">NAHGRENZE</span>
+                        <span class="telemetry-v" id="telemetryClose">0.15 METER (MAKRO)</span>
+                    </div>
+                    <div class="telemetry-row">
+                        <span class="telemetry-k">FRONT-TUBUS</span>
+                        <span class="telemetry-v" id="telemetryFront">34 MM ANODISIERT</span>
+                    </div>
+                    <div class="telemetry-row">
+                        <span class="telemetry-k">SYSTEM GEWICHT</span>
+                        <span class="telemetry-v" id="telemetryWeight">210 G UNIBODY</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Main Stage: Widescreen Image Frame + Asymmetric Blueprint Dossier -->
+            <section class="lens-hero-stage">
+
+                <!-- Macro Lens Dial Image Frame -->
+                <div class="swiss-exhibition-stage reveal reveal-scale stagger-2" style="margin: 0 0 1.75rem 0;">
+                    <span class="swiss-stage-corner-notch top-left">[ + 0.002mm ]</span>
+                    <span class="swiss-stage-corner-notch top-right" id="hudLensTitle">SERIES 1 // 18MM f/2.0</span>
+                    <span class="swiss-stage-corner-notch bottom-left">SAPPHIRE COATED</span>
+                    <span class="swiss-stage-corner-notch bottom-right">7-BLADE IRIS</span>
+
+                    <img src="assets/images/camera_07_macro_lens_transparent.png"
+                        alt="NoMotion 18mm Lens Element and Knurled Dial Macro"
+                        class="swiss-stage-img image-blend-soft">
+
+                    <div class="product-caption-row"
+                        style="width: 100%; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.85rem; margin-top: 0.5rem;">
+                        <span class="product-caption-tag">SUB-MIKRON VERGÜTUNG // RÄNDEL-DIAL</span>
+                        <span class="product-caption-spec">72-KLICK ALUMINIUM 7075-T6</span>
+                    </div>
+                </div>
+
+                <!-- Asymmetric Staggered Blueprint Cards -->
+                <div class="asymmetric-blueprint-grid">
+
+                    <div class="blueprint-card reveal stagger-3">
+                        <div>
+                            <span class="card-meta">OPTISCHE FORMEL // 6 ELEMENTE</span>
+                            <h3 class="card-title">6 Glaselemente in 4 Gruppen</h3>
+                            <p class="card-desc">
+                                Asphärische Zylindergeometrie mit Lanthan-Schwerkronglas für rasiermesserscharfe Details
+                                bis an den Sensorrand und samtiges Hintergrund-Bokeh.
+                            </p>
+                        </div>
+                        <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="tag-badge">ASPHERICAL</span>
+                            <span class="tag-badge">ZERO CHROMATIC ABERRATION</span>
+                        </div>
+                    </div>
+
+                    <div class="blueprint-card reveal stagger-4" style="background: rgba(0, 0, 0, 0.025);">
+                        <div>
+                            <span class="card-meta">FLARE CHARAKTERISTIK</span>
+                            <h3 class="card-title">Warm Amber Nano Coating</h3>
+                            <p class="card-desc">
+                                Selektiv aufgedampfte Mehrschichtvergütung erzeugt organisch warme Lichtreflexe ohne
+                                Kontrastabfall in dunklen Bildbereichen.
+                            </p>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <span class="tag-badge" style="background: #000; color: #fff;">SWISS COATING</span>
+                        </div>
+                    </div>
+
+                    <div class="blueprint-card span-full reveal stagger-5"
+                        style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                        <div>
+                            <span class="card-meta">FOKUS &amp; STEUERUNG</span>
+                            <h3 class="card-title" style="margin-bottom: 0.25rem;">Haptisches Drehrad mit 72 Klickstufen
+                            </h3>
+                            <p class="card-desc" style="margin: 0;">
+                                Direkte mechanische Rückmeldung für präzise manuelle Schärfe- und Blendenkorrekturen.
+                            </p>
+                        </div>
+                        <a href="contact.html" class="form-submit-btn" style="margin: 0; white-space: nowrap;">Optik
+                            anfragen →</a>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+
+        <!-- Full Technical Matrix -->
+        <section class="reveal" style="margin-top: 5rem;">
+            <span class="tag-badge">LENS MATRIX // SPECIFICATIONS</span>
+            <h2>Vollständige Optik-Spezifikationen</h2>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Modell</th>
+                        <th>Brennweite</th>
+                        <th>Lichtstärke</th>
+                        <th>Nahgrenze</th>
+                        <th>Linsenaufbau</th>
+                        <th>Filtergewinde</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="reveal stagger-1">
+                        <td class="code">Series 1 Model 100</td>
+                        <td>18 mm (28mm KB-Äquiv.)</td>
+                        <td>f/2.0 – f/16</td>
+                        <td>0.15 m</td>
+                        <td>6 Elemente in 4 Gruppen</td>
+                        <td>34 mm Custom</td>
+                    </tr>
+                    <tr class="reveal stagger-2">
+                        <td class="code">NM-28 Cine Wide</td>
+                        <td>28 mm Anamorph</td>
+                        <td>T2.0 – T22</td>
+                        <td>0.45 m</td>
+                        <td>14 Elemente in 11 Gruppen</td>
+                        <td>114 mm Mattebox</td>
+                    </tr>
+                    <tr class="reveal stagger-3">
+                        <td class="code">NM-50 Cine Master</td>
+                        <td>50 mm Anamorph</td>
+                        <td>T1.5 – T22</td>
+                        <td>0.60 m</td>
+                        <td>14 Elemente in 11 Gruppen</td>
+                        <td>114 mm Mattebox</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
+        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="js/main.js?v=5.1"></script>
+    <script>
+        // Interactive Focal Length Switcher Logic with Telemetry Flash Animation
+        document.querySelectorAll('.focal-item-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.focal-item-btn').forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+
+                const focal = btn.getAttribute('data-focal');
+                const aperture = btn.getAttribute('data-aperture');
+                const fov = btn.getAttribute('data-fov');
+                const close = btn.getAttribute('data-close');
+                const weight = btn.getAttribute('data-weight');
+                const front = btn.getAttribute('data-front');
+
+                // Animate telemetry values with flash
+                const vals = [
+                    { el: document.getElementById('telemetryFov'), text: fov },
+                    { el: document.getElementById('telemetryAperture'), text: aperture + ' ULTRA-SPEED' },
+                    { el: document.getElementById('telemetryClose'), text: close },
+                    { el: document.getElementById('telemetryFront'), text: front },
+                    { el: document.getElementById('telemetryWeight'), text: weight }
+                ];
+
+                vals.forEach((v, i) => {
+                    if (!v.el) return;
+                    setTimeout(() => {
+                        v.el.classList.add('is-rolling');
+                        v.el.textContent = v.text;
+                        v.el.addEventListener('animationend', () => {
+                            v.el.classList.remove('is-rolling');
+                        }, { once: true });
+                    }, i * 50);
+                });
+
+                document.getElementById('hudLensTitle').textContent = `SERIES // ${focal}MM ${aperture} OPTIK`;
+            });
+        });
+    </script>
+</body>
+
+</html>

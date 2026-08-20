@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.39:1 Cinema Stills &amp; Live VFX — NoMotion</title>
+
+    <!-- Google Fonts: Bitcount Single, Stack Sans Notch, Handjet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="css/style.css?v=5.1">
+</head>
+
+<body>
+    <!-- Top Floating Swiss Header -->
+    <header class="header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/icons/logo-dark.svg" alt="noMotion Logo" class="nav-logo">
+            </a>
+
+            <!-- Swiss Precision Technical Menu Button -->
+            <button id="hamburgerBtn" class="menu-btn" aria-label="Navigation umschalten" aria-expanded="false">
+                <span class="menu-btn-text">MENU</span>
+                <div class="menu-btn-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Infinite 3D Rotary Wheel Navigation Overlay with Dark Blur -->
+    <div id="fullscreenMenu" class="fullscreen-menu" data-lenis-prevent aria-hidden="true">
+        <div class="wheel-stage">
+            <div class="wheel-cylinder" id="wheelCylinder">
+                <div class="wheel-item" data-index="0">
+                    <a href="index.html" class="wheel-link">
+                        <span class="wheel-num">01 //</span>
+                        <span>System Overview</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="1">
+                    <a href="optics.html" class="wheel-link">
+                        <span class="wheel-num">02 //</span>
+                        <span>Optics &amp; Lenses</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="2">
+                    <a href="cameras.html" class="wheel-link">
+                        <span class="wheel-num">03 //</span>
+                        <span>Camera Systems</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="3">
+                    <a href="footage.html" class="wheel-link active">
+                        <span class="wheel-num">04 //</span>
+                        <span>Footage Gallery</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="4">
+                    <a href="specs.html" class="wheel-link">
+                        <span class="wheel-num">05 //</span>
+                        <span>Technical Specs</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="5">
+                    <a href="contact.html" class="wheel-link">
+                        <span class="wheel-num">06 //</span>
+                        <span>Studio Inquiries</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <section class="hero-minimal reveal">
+            <span class="tag-badge">THEATER // 04 • 2.39:1 ANAMORPHIC FRAME ATELIER</span>
+            <h1>2.39:1 Cinema Stills &amp; Live VFX.</h1>
+            <p class="subtitle">
+                Asymmetrische Großbild-Galerie und Live-VFX-Metadaten.
+                Erlebe den unverfälschten anamorphen Streak-Flare und überprüfe die SMPTE 2110 / FreeD Datenübertragung
+                in Echtzeit.
+            </p>
+        </section>
+
+        <!-- Giant 2.39:1 Widescreen Cinema Theater Frame -->
+        <div class="footage-hero-theater reveal">
+            <div class="footage-aspect-container">
+                <img src="assets/images/footage_hero.jpg" alt="NoMotion 2.39:1 Anamorphic Cinema Frame Still"
+                    id="activeFootageImage">
+                <div class="image-hud-overlay">
+                    <div class="hud-top-row">
+                        <span class="hud-tag hud-typewrite">SHOT ON MODEL 100 // 18MM f/2.0</span>
+                        <span class="hud-reticle hud-timecode-live">[ TIMECODE 01:24:18:14 ]</span>
+                    </div>
+                    <div class="hud-bottom-row" style="margin-bottom: 3.5rem;">
+                        <span class="hud-tag">
+                            <span class="rec-indicator"><span class="rec-dot"></span> REC</span>
+                            &nbsp; ISO 3200 DUAL • f/2.0 OPEN IRIS • UNREAL ENGINE 5 SYNC
+                        </span>
+                        <span class="hud-reticle">2.39:1 SCOPE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Flare Streak Controller Bar -->
+            <div class="footage-flare-slider-bar">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span
+                        style="font-family: var(--font-small); font-size: 0.75rem; font-weight: 800; color: var(--accent-amber); letter-spacing: 0.1em;">FLARE-INTENSITÄT:</span>
+                    <span id="flareIntensityLabel"
+                        style="font-family: var(--font-heading); font-weight: 800; font-size: 0.95rem;">WARM AMBER
+                        STREAK (100%)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem; width: min(340px, 100%);">
+                    <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6);">CLEAN</span>
+                    <input type="range" min="0" max="2" step="1" value="1" id="flareSlider"
+                        style="width: 100%; cursor: pointer;">
+                    <span style="font-size: 0.7rem; color: var(--accent-amber);">ANAMORPHIC</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Asymmetrical Split: Floating Camera Perspective & Virtual Production Dossier -->
+        <div
+            style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 3.5rem; margin: 4.5rem 0; align-items: center;">
+
+            <!-- Left Seamless Floating Low Hero Camera -->
+            <div class="swiss-exhibition-stage reveal reveal-left" style="margin: 0; padding: 2rem;">
+                <span class="swiss-stage-corner-notch top-left">[ + 0.002mm ]</span>
+                <span class="swiss-stage-corner-notch top-right">LOW ANGLE PERSPECTIVE</span>
+
+                <img src="assets/images/camera_06_low_hero_transparent.png"
+                    alt="NoMotion Model 100 Low Angle Cinema Rig" class="swiss-stage-img image-blend-soft"
+                    style="max-height: 400px;">
+
+                <div class="product-caption-row"
+                    style="width: 100%; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.85rem; margin-top: 0.5rem;">
+                    <span class="product-caption-tag">MODEL 100 // LOW PERSPECTIVE</span>
+                    <span class="product-caption-spec">TITAN UNIBODY • PRECISION DIAL</span>
+                </div>
+            </div>
+
+            <!-- Right Virtual Production Dossier -->
+            <div class="blueprint-card reveal reveal-right stagger-2"
+                style="padding: 2.8rem; background: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.04);">
+                <span class="card-meta">VIRTUAL PRODUCTION // LED VOLUME</span>
+                <h2 class="card-title" style="font-size: 1.65rem; margin-bottom: 1rem;">Live Lens Distortion Mapping
+                </h2>
+                <p class="card-desc" style="font-size: 1rem; line-height: 1.7;">
+                    Das Model 100 streamt seine kalibrierte Verzeichnungskurve, den nodal point offset und optische
+                    Vignettierungs-Koeffizienten direkt in die Unreal Engine 5 nDisplay-Nodes.
+                    Keine zeitraubende Linsen-Kalibrierung am Filmset notwendig.
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <span class="tag-badge">SMPTE 2110-41</span>
+                    <span class="tag-badge">FREED 240HZ</span>
+                    <span class="tag-badge">&lt; 1.2MS LATENZ</span>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <a href="contact.html" class="form-submit-btn" style="margin: 0;">Footage Test-Paket anfragen →</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Live Streaming VFX Metadata Console -->
+        <section class="reveal" style="margin-top: 5rem;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <span class="tag-badge">LIVE METADATA STREAM // FREED PACKET MONITOR</span>
+                    <h2>Echtzeit-Linsen-Telemetrie</h2>
+                </div>
+                <span class="tag-badge"
+                    style="background: rgba(0, 255, 136, 0.1); color: #00ff88; border-color: rgba(0, 255, 136, 0.3);">
+                    ● STREAM STATUS: 240 HZ ACTIVE
+                </span>
+            </div>
+
+            <pre class="vfx-packet-console" id="vfxConsole">
+{
+  "protocol": "FreeD_SMPTE_2110_v2",
+  "device_model": "NoMotion_Model_100",
+  "focal_length_mm": 18.002,
+  "aperture_f_stop": 2.00,
+  "focus_distance_m": 1.450,
+  "distortion_k1": -0.0142,
+  "distortion_k2": 0.0008,
+  "optical_center_x": 0.0012,
+  "optical_center_y": -0.0004,
+  "nodal_point_offset_z": -14.28,
+  "latency_ms": 1.18,
+  "status": "VALID_FRAME_LOCK_4K_60FPS"
+}
+            </pre>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
+        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="js/main.js?v=5.1"></script>
+    <script>
+        // Interactive Flare Streak Slider
+        const flareSlider = document.getElementById('flareSlider');
+        const flareLabel = document.getElementById('flareIntensityLabel');
+        const activeFootage = document.getElementById('activeFootageImage');
+        const flareModes = [
+            { text: 'CLEAN MULTI-COATING (0%)', filter: 'brightness(0.95) contrast(1.05)' },
+            { text: 'WARM AMBER STREAK (100%)', filter: 'brightness(1.0) contrast(1.0)' },
+            { text: 'HIGH-INTENSITY ANAMORPHIC (200%)', filter: 'brightness(1.15) contrast(1.1) saturate(1.2)' }
+        ];
+
+        if (flareSlider && flareLabel && activeFootage) {
+            flareSlider.addEventListener('input', (e) => {
+                const idx = parseInt(e.target.value, 10);
+                flareLabel.textContent = flareModes[idx].text;
+                activeFootage.style.filter = flareModes[idx].filter;
+                activeFootage.style.transition = 'filter 0.4s ease';
+            });
+        }
+
+        // Live FreeD / SMPTE 2110 Telemetry Stream Simulation
+        const vfxConsole = document.getElementById('vfxConsole');
+        if (vfxConsole) {
+            let frameCount = 12480;
+            setInterval(() => {
+                frameCount += 2;
+                const jitter = (Math.sin(Date.now() / 600) * 0.005).toFixed(4);
+                const distJitter = (1.450 + Math.cos(Date.now() / 800) * 0.012).toFixed(3);
+                const latJitter = (1.14 + (Math.random() * 0.08)).toFixed(2);
+
+                vfxConsole.textContent = `{\n  "protocol": "FreeD_SMPTE_2110_v2",\n  "frame_id": ${frameCount},\n  "device_model": "NoMotion_Model_100",\n  "focal_length_mm": ${(18.002 + parseFloat(jitter)).toFixed(3)},\n  "aperture_f_stop": 2.00,\n  "focus_distance_m": ${distJitter},\n  "distortion_k1": -0.0142,\n  "distortion_k2": 0.0008,\n  "optical_center_x": 0.0012,\n  "optical_center_y": -0.0004,\n  "nodal_point_offset_z": -14.28,\n  "latency_ms": ${latJitter},\n  "status": "VALID_FRAME_LOCK_4K_60FPS"\n}`;
+            }, 600);
+        }
+    </script>
+</body>
+
+</html>

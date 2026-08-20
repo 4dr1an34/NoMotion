@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sub-Micron Calibration &amp; Exploded Engineering — NoMotion</title>
+
+    <!-- Google Fonts: Bitcount Single, Stack Sans Notch, Handjet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="css/style.css?v=5.1">
+</head>
+
+<body>
+    <!-- Top Floating Swiss Header -->
+    <header class="header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/icons/logo-dark.svg" alt="noMotion Logo" class="nav-logo">
+            </a>
+
+            <!-- Swiss Precision Technical Menu Button -->
+            <button id="hamburgerBtn" class="menu-btn" aria-label="Navigation umschalten" aria-expanded="false">
+                <span class="menu-btn-text">MENU</span>
+                <div class="menu-btn-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Infinite 3D Rotary Wheel Navigation Overlay with Dark Blur -->
+    <div id="fullscreenMenu" class="fullscreen-menu" data-lenis-prevent aria-hidden="true">
+        <div class="wheel-stage">
+            <div class="wheel-cylinder" id="wheelCylinder">
+                <div class="wheel-item" data-index="0">
+                    <a href="index.html" class="wheel-link">
+                        <span class="wheel-num">01 //</span>
+                        <span>System Overview</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="1">
+                    <a href="optics.html" class="wheel-link">
+                        <span class="wheel-num">02 //</span>
+                        <span>Optics &amp; Lenses</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="2">
+                    <a href="cameras.html" class="wheel-link">
+                        <span class="wheel-num">03 //</span>
+                        <span>Camera Systems</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="3">
+                    <a href="footage.html" class="wheel-link">
+                        <span class="wheel-num">04 //</span>
+                        <span>Footage Gallery</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="4">
+                    <a href="specs.html" class="wheel-link active">
+                        <span class="wheel-num">05 //</span>
+                        <span>Technical Specs</span>
+                    </a>
+                </div>
+                <div class="wheel-item" data-index="5">
+                    <a href="contact.html" class="wheel-link">
+                        <span class="wheel-num">06 //</span>
+                        <span>Studio Inquiries</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <section class="hero-minimal reveal">
+            <span class="tag-badge">DOSSIER // 05 • EXPLODED CAD &amp; OPTICAL SCIENCE</span>
+            <h1>Exploded Engineering &amp; Kalibrierung.</h1>
+            <p class="subtitle">
+                Submikroskopische Justierung aller mechanischen und optischen Baugruppen.
+                Erkunde die Explosionszeichnung des Model 100 und die interferometrischen MTF-Graphen aus unserem
+                Zürcher Reinraum.
+            </p>
+        </section>
+
+        <!-- Full Exploded CAD Viewport Showcase -->
+        <div class="cad-blueprint-stage reveal">
+            <span class="swiss-stage-corner-notch top-left">[ + 0.002mm ]</span>
+            <span class="swiss-stage-corner-notch top-right">CAD MODEL 100 // EXPLODED VIEW</span>
+            <span class="swiss-stage-corner-notch bottom-left">ZÜRICH CLEANROOM</span>
+            <span class="swiss-stage-corner-notch bottom-right">SUB-MICRON CALIBRATION</span>
+
+            <img src="assets/images/camera_exploded_view_transparent.png"
+                alt="NoMotion Model 100 Full Exploded Engineering View" class="cad-blueprint-img image-blend-soft">
+
+            <div class="product-caption-row" style="margin-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.06);">
+                <span class="product-caption-tag">EXPLODED CAD // CHASSIS • LOGIC PCB • CMOS SENSOR • IRIS ASSEMBLY •
+                    LENS GROUP • KNURLED DIAL</span>
+                <span class="product-caption-spec">SWISS CRAFTSMANSHIP</span>
+            </div>
+        </div>
+
+        <!-- Asymmetrical Mosaic Layout: Transparent Internal Mechanics vs Interactive MTF Graph -->
+        <div class="specs-mosaic-grid">
+
+            <!-- Left Transparent X-Ray Internal Frame -->
+            <div class="swiss-exhibition-stage reveal reveal-left"
+                style="margin: 0; padding: 2rem; position: relative;">
+                <span class="swiss-stage-corner-notch top-left">[ X-RAY RAYTRACING ]</span>
+                <span class="swiss-stage-corner-notch top-right">PASSIVE HEATPIPE</span>
+
+                <!-- X-Ray Scan Line Overlay -->
+                <div class="xray-scan-overlay">
+                    <div class="xray-scan-line"></div>
+                </div>
+
+                <img src="assets/images/camera_09_inside_xray_transparent.png"
+                    alt="NoMotion Transparent Inside Optics &amp; Copper Cooling"
+                    class="swiss-stage-img image-blend-soft" style="max-height: 380px;">
+
+                <div class="product-caption-row"
+                    style="width: 100%; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 0.85rem; margin-top: 0.5rem;">
+                    <span class="product-caption-tag">INTERNER STRAHLENGANG // KUPFER-BLOCK</span>
+                    <span class="product-caption-spec">PASSIV-KÜHLUNG</span>
+                </div>
+            </div>
+
+            <!-- Right Interactive MTF Curve Panel -->
+            <div class="mtf-interactive-panel reveal reveal-right stagger-2">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="card-meta" style="margin: 0;">MTF KONTRAST-ANALYSE</span>
+                    <span class="tag-badge" id="mtfContrastBadge">88% BEI 80 LP/MM</span>
+                </div>
+                <h3 class="card-title" style="margin: 0;" id="mtfTitle">Wellenfront-Kontrast (Mitte bis Rand)</h3>
+                <p class="card-desc" style="font-size: 0.88rem; margin: 0;">
+                    Wähle die Ortsfrequenz, um die gemessene Kontrastübertragung von der Bildmitte (0mm) bis zur
+                    äußersten Sensorecke (16mm) anzuzeigen.
+                </p>
+
+                <!-- MTF Frequency Buttons -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="sensor-chip-btn" data-freq="10" data-val="98%"
+                        data-curve="M 10,20 Q 150,22 290,30">10 lp/mm (Grundschärfe)</button>
+                    <button class="sensor-chip-btn" data-freq="20" data-val="94%"
+                        data-curve="M 10,35 Q 150,40 290,55">20 lp/mm (Mikrokontrast)</button>
+                    <button class="sensor-chip-btn" data-freq="40" data-val="91%"
+                        data-curve="M 10,50 Q 150,60 290,80">40 lp/mm (4K Detail)</button>
+                    <button class="sensor-chip-btn is-active" data-freq="80" data-val="88%"
+                        data-curve="M 10,65 Q 150,85 290,115">80 lp/mm (Master 8K)</button>
+                </div>
+
+                <!-- MTF SVG Graph -->
+                <div class="mtf-chart-canvas-box">
+                    <div class="mtf-grid-line" style="top: 25%;"></div>
+                    <div class="mtf-grid-line" style="top: 50%;"></div>
+                    <div class="mtf-grid-line" style="top: 75%;"></div>
+                    <svg class="mtf-svg-curve" viewBox="0 0 300 160" preserveAspectRatio="none">
+                        <!-- Sagittal & Tangential Curves -->
+                        <path id="mtfPathSagittal" d="M 10,65 Q 150,85 290,115" fill="none" stroke="#e5a93c"
+                            stroke-width="3" stroke-linecap="round" />
+                        <path id="mtfPathTangential" d="M 10,70 Q 150,95 290,130" fill="none" stroke="#ffffff"
+                            stroke-width="2" stroke-dasharray="4,4" stroke-linecap="round" />
+                    </svg>
+                    <div
+                        style="position: absolute; bottom: 0.5rem; left: 1rem; right: 1rem; display: flex; justify-content: space-between; font-family: var(--font-small); font-size: 0.68rem; color: rgba(255,255,255,0.6);">
+                        <span>ZENTRUM (0mm)</span>
+                        <span style="color: var(--accent-amber);">— SAGITTAL</span>
+                        <span>-- TANGENTIAL</span>
+                        <span>SENSOR-RAND (16mm)</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Asymmetrical 2-Column Engineering Breakdown -->
+        <div class="asymmetric-blueprint-grid">
+
+            <div class="blueprint-card tilt-card reveal stagger-1">
+                <span class="card-meta">CHASSIS // MATERIALWISSENSCHAFT</span>
+                <h3 class="card-title">Champagner-Gold anodisiertes Unibody-Gehäuse</h3>
+                <p class="card-desc">
+                    Aus einem massiven Block Luftfahrt-Aluminium gefräst.
+                    Thermisch gekoppelt an einen internen Kupfer-Kühlkörper, der die Prozessorabwärme gleichmäßig
+                    ableitet und lüfterlose Aufnahmen garantiert.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <span class="tag-badge">ALU 7075-T6</span>
+                    <span class="tag-badge">PASSIV-KÜHLUNG</span>
+                    <span class="tag-badge">ZERO NOISE</span>
+                </div>
+            </div>
+
+            <div class="blueprint-card tilt-card reveal stagger-2" style="background: rgba(0, 0, 0, 0.025);">
+                <span class="card-meta">FERTIGUNG // SUBMIKRON-JUSTAGE</span>
+                <h3 class="card-title">Laser-interferometrische Endkontrolle</h3>
+                <p class="card-desc">
+                    Jedes NoMotion Gerät durchläuft im Zürcher ISO-Klasse-5 Reinraum einen 48-Punkte optischen
+                    Achsen-Scan, bevor die Endabnahme erfolgt.
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="contact.html" class="form-submit-btn" style="margin: 0; width: 100%;">Labor-Dossier
+                        anfragen →</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Full Tolerances Table -->
+        <section class="reveal" style="margin-top: 5rem;">
+            <span class="tag-badge">LAB METRICS // SUB-MICRON TOLERANCES</span>
+            <h2>Schweizer Labor-Toleranzen im Detail</h2>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Prüfparameter</th>
+                        <th>Standard Industrie-Toleranz</th>
+                        <th>NoMotion Labor-Standard</th>
+                        <th>Messtechnik</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="reveal stagger-1">
+                        <td class="code">MTF Randschärfe (1-Zoll Sensor)</td>
+                        <td>> 45% Kontrast</td>
+                        <td style="color: #000; font-weight: 800;">> 88% Kontrast</td>
+                        <td>Zygo Verifire™ Laser</td>
+                    </tr>
+                    <tr class="reveal stagger-2">
+                        <td class="code">Auflagemaß-Präzision (FFD)</td>
+                        <td>± 0.015 mm</td>
+                        <td style="color: #000; font-weight: 800;">± 0.002 mm Sub-Micron</td>
+                        <td>Mitutoyo Optischer Messtaster</td>
+                    </tr>
+                    <tr class="reveal stagger-3">
+                        <td class="code">Optische Transmission (T-Stop)</td>
+                        <td>94 – 96%</td>
+                        <td style="color: #000; font-weight: 800;">99.85% (Nano Multi-Coating)</td>
+                        <td>Spektralphotometer 380–780nm</td>
+                    </tr>
+                    <tr class="reveal stagger-4">
+                        <td class="code">Zylinderachsen-Parallelität</td>
+                        <td>± 0.15°</td>
+                        <td style="color: #000; font-weight: 800;">± 0.01° Absolut</td>
+                        <td>Optischer Kollimator Zürich</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
+        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="js/main.js?v=5.1"></script>
+    <script>
+        // Interactive MTF Curve Switcher
+        const freqButtons = document.querySelectorAll('.sensor-chip-btn');
+        const mtfPathSagittal = document.getElementById('mtfPathSagittal');
+        const mtfPathTangential = document.getElementById('mtfPathTangential');
+        const mtfContrastBadge = document.getElementById('mtfContrastBadge');
+
+        const mtfCurves = {
+            '10': { val: '98%', sag: 'M 10,20 Q 150,22 290,30', tan: 'M 10,25 Q 150,28 290,38' },
+            '20': { val: '94%', sag: 'M 10,35 Q 150,40 290,55', tan: 'M 10,40 Q 150,48 290,68' },
+            '40': { val: '91%', sag: 'M 10,50 Q 150,60 290,80', tan: 'M 10,55 Q 150,72 290,98' },
+            '80': { val: '88%', sag: 'M 10,65 Q 150,85 290,115', tan: 'M 10,70 Q 150,95 290,130' }
+        };
+
+        freqButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                freqButtons.forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+
+                const freq = btn.getAttribute('data-freq');
+                const data = mtfCurves[freq];
+                if (data) {
+                    // Re-trigger draw-on animation on curve switch
+                    if (mtfPathSagittal) {
+                        mtfPathSagittal.classList.remove('is-drawn');
+                        mtfPathSagittal.setAttribute('d', data.sag);
+                        requestAnimationFrame(() => {
+                            mtfPathSagittal.classList.add('is-drawn');
+                        });
+                    }
+                    if (mtfPathTangential) {
+                        mtfPathTangential.classList.remove('is-drawn');
+                        mtfPathTangential.setAttribute('d', data.tan);
+                        requestAnimationFrame(() => {
+                            mtfPathTangential.classList.add('is-drawn');
+                        });
+                    }
+                    if (mtfContrastBadge) mtfContrastBadge.textContent = `${data.val} BEI ${freq} LP/MM`;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
