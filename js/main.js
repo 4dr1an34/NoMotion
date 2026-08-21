@@ -5,10 +5,9 @@
  * 3. 77-Frame Scroll-Scrub Video Canvas Engine with Silky End Exit
  * 4. 3D Cylindrical Rotary Wheel Navigation with Precision Hitboxes
  * 5. Infinite Interactive Card Stream with GSAP Spring Physics
- * 6. GSAP QuickTo Magnetic Button & Micro-Physics Engine
- * 7. Spatial 3D Perspective Tilt System
- * 8. GSAP ScrollTrigger Staggered 3D Reveals
- * 9. Subpage Interactive Telemetry, SVG Morphing & VFX Simulators
+ * 6. Spatial 3D Perspective Tilt System
+ * 7. GSAP ScrollTrigger Staggered 3D Reveals
+ * 8. Subpage Interactive Telemetry, SVG Morphing & VFX Simulators
  */
 
 (function () {
@@ -986,48 +985,7 @@
         requestAnimationFrame(loop);
     }
 
-    /* ==========================================================================
-       6. GSAP MAGNETIC BUTTONS & MICRO-PHYSICS ENGINE
-       ========================================================================== */
-    function initMagneticElements() {
-        if (typeof gsap === 'undefined') return;
 
-        // Interactive magnetic targets
-        const targets = document.querySelectorAll(`
-            .menu-btn,
-            .nav-brand,
-            .form-submit-btn,
-            .focal-item-btn,
-            .angle-thumb-btn,
-            .turntable-nav-btn,
-            .config-chip-btn,
-            .sensor-chip-btn,
-            .stream-card-link,
-            .stream-control-badge
-        `);
-
-        targets.forEach((el) => {
-            const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3.out" });
-            const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3.out" });
-
-            el.addEventListener('mousemove', (e) => {
-                const rect = el.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                const maxPull = el.classList.contains('menu-btn') || el.classList.contains('form-submit-btn') ? 12 : 6;
-                const dx = (e.clientX - centerX) / (rect.width / 2) * maxPull;
-                const dy = (e.clientY - centerY) / (rect.height / 2) * maxPull;
-
-                xTo(dx);
-                yTo(dy);
-            });
-
-            el.addEventListener('mouseleave', () => {
-                xTo(0);
-                yTo(0);
-            });
-        });
-    }
 
     /* ==========================================================================
        7. SPATIAL 3D PERSPECTIVE TILT SYSTEM
@@ -1316,7 +1274,6 @@
         initVideoHero();
         initMenu();
         initInfiniteStream();
-        initMagneticElements();
         initSpatialTilt();
         initScrollReveal();
         initLiveTimecode();
