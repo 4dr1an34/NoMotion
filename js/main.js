@@ -97,13 +97,17 @@
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
         if (isHero) {
-            // Index Hero Viewfinder & Brand Sequence
+            // Index Hero Viewfinder & Canvas Entrance Sequence
             const viewfinder = document.querySelector('.viewfinder-frame');
             const vfCorners = document.querySelectorAll('.vf-corner');
-            const brandText = document.querySelector('.hero-bg-brand-text');
-            const flankLeftItems = document.querySelectorAll('.hero-flank-left .hero-spec-item');
-            const flankRightItems = document.querySelectorAll('.hero-flank-right .hero-spec-item');
             const canvas = document.getElementById('videoCanvas');
+            const streamLeft = document.getElementById('heroStreamLeft');
+            const streamRight = document.getElementById('heroStreamRight');
+            const watermark = document.getElementById('heroBrandWatermark');
+
+            if (streamLeft) gsap.set(streamLeft, { opacity: 0, y: '80vh' });
+            if (streamRight) gsap.set(streamRight, { opacity: 0, y: '80vh' });
+            if (watermark) gsap.set(watermark, { opacity: 0, yPercent: 40 });
 
             if (viewfinder) {
                 tl.fromTo(viewfinder,
@@ -119,31 +123,10 @@
                 );
             }
 
-            if (brandText) {
-                tl.fromTo(brandText,
-                    { opacity: 0, scale: 1.06, letterSpacing: '0.04em' },
-                    { opacity: 0.95, scale: 1.0, letterSpacing: '-0.04em', duration: 1.4, ease: 'power4.out' }, 0.25
-                );
-            }
-
             if (canvas) {
                 tl.fromTo(canvas,
-                    { opacity: 0, scale: 0.94 },
-                    { opacity: 1, scale: 1.0, duration: 1.2, ease: 'power2.out' }, 0.35
-                );
-            }
-
-            if (flankLeftItems.length) {
-                tl.fromTo(flankLeftItems,
-                    { opacity: 0, x: -25 },
-                    { opacity: 1, x: 0, stagger: 0.08, duration: 0.75, ease: 'power2.out' }, 0.5
-                );
-            }
-
-            if (flankRightItems.length) {
-                tl.fromTo(flankRightItems,
-                    { opacity: 0, x: 25 },
-                    { opacity: 1, x: 0, stagger: 0.08, duration: 0.75, ease: 'power2.out' }, 0.5
+                    { scale: 0.96 },
+                    { scale: 1.0, duration: 0.9, ease: 'power2.out' }, 0.15
                 );
             }
         } else {
@@ -160,22 +143,22 @@
     }
 
     /* ==========================================================================
-       3. GSAP SCROLLABLE VIDEO CANVAS HERO ENGINE (77 Frames + Silky End Phase)
+       3. GSAP SCROLLABLE VIDEO CANVAS HERO ENGINE (77 Frames + Synced Parallax Storyboard)
        ========================================================================== */
     function initVideoHero() {
         const track = document.getElementById('videoHeroTrack');
         const canvas = document.getElementById('videoCanvas');
         if (!track || !canvas) return;
 
-        const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+        const ctx = canvas.getContext('2d', { alpha: true });
         const TOTAL_FRAMES = 77;
         const images = new Array(TOTAL_FRAMES);
         const loaded = new Array(TOTAL_FRAMES).fill(false);
 
-        const flankLeft = document.querySelector('.hero-flank-left');
-        const flankRight = document.querySelector('.hero-flank-right');
+        const streamLeft = document.getElementById('heroStreamLeft');
+        const streamRight = document.getElementById('heroStreamRight');
+        const watermark = document.getElementById('heroBrandWatermark');
         const viewfinder = document.querySelector('.viewfinder-frame');
-        const brandText = document.querySelector('.hero-bg-brand-text');
 
         let targetFrame = 0;
         let currentFrame = 0;
@@ -184,8 +167,10 @@
 
         function updateCanvasSize() {
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            cw = Math.round(canvas.clientWidth * dpr);
-            ch = Math.round(canvas.clientHeight * dpr);
+            const w = canvas.clientWidth || window.innerWidth || 1920;
+            const h = canvas.clientHeight || window.innerHeight || 1080;
+            cw = Math.round(w * dpr);
+            ch = Math.round(h * dpr);
 
             if (canvas.width !== cw || canvas.height !== ch) {
                 canvas.width = cw;
@@ -200,20 +185,21 @@
         }
 
         function drawFrame(source) {
-            if (!source) return;
-            if (cw === 0 || ch === 0) updateCanvasSize();
+            if (!source) return false;
 
-            const iw = source.naturalWidth || source.videoWidth || source.width || 1920;
-            const ih = source.naturalHeight || source.videoHeight || source.height || 1080;
-            if (!iw || !ih) return;
+            const iw = source.naturalWidth || source.videoWidth || (source.complete && source.width ? source.width : 0);
+            const ih = source.naturalHeight || source.videoHeight || (source.complete && source.height ? source.height : 0);
+            if (!iw || !ih) return false;
+
+            if (cw === 0 || ch === 0) updateCanvasSize();
 
             let ratio;
             if (cw < ch) {
                 // Mobile Portrait
-                ratio = Math.min((cw / iw) * 1.18, (ch / ih) * 0.44);
+                ratio = Math.min((cw / iw) * 1.15, (ch / ih) * 0.50);
             } else {
                 // Desktop Landscape
-                ratio = Math.max(cw / iw, ch / ih);
+                ratio = Math.min((cw / iw) * 0.95, (ch / ih) * 0.95);
             }
 
             const nw = iw * ratio;
@@ -225,6 +211,7 @@
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(source, nx, ny, nw, nh);
+            return true;
         }
 
         // Hardware-Accelerated Video Fallback
@@ -246,31 +233,35 @@
         });
         video.load();
 
-        // High-Performance Parallel Preloader with HTML5 decode()
+        // Robust Parallel Preloader for Local file:// and Web protocols
         function loadFrame(idx, onDone) {
-            if (images[idx]) {
-                if (loaded[idx] && onDone) onDone(images[idx]);
+            if (images[idx] && loaded[idx]) {
+                if (onDone) onDone(images[idx]);
                 return;
             }
             const img = new Image();
+            img.onload = () => {
+                loaded[idx] = true;
+                if (onDone) onDone(img);
+                if (idx === Math.round(currentFrame) || lastDrawnFrame < 0) {
+                    const ok = drawFrame(img);
+                    if (ok) lastDrawnFrame = idx;
+                }
+            };
+            img.onerror = () => {
+                console.warn('Frame load warning for frame:', idx);
+            };
             img.src = getFramePath(idx);
             images[idx] = img;
 
-            if ('decode' in img) {
-                img.decode().then(() => {
-                    loaded[idx] = true;
-                    if (onDone) onDone(img);
-                }).catch(() => {
-                    img.onload = () => {
-                        loaded[idx] = true;
-                        if (onDone) onDone(img);
-                    };
-                });
-            } else {
-                img.onload = () => {
-                    loaded[idx] = true;
-                    if (onDone) onDone(img);
-                };
+            // In case the image was cached or loaded synchronously from disk
+            if (img.complete && img.naturalWidth > 0) {
+                loaded[idx] = true;
+                if (onDone) onDone(img);
+                if (idx === Math.round(currentFrame) || lastDrawnFrame < 0) {
+                    const ok = drawFrame(img);
+                    if (ok) lastDrawnFrame = idx;
+                }
             }
         }
 
@@ -313,8 +304,8 @@
             if (clampedFrame !== lastDrawnFrame) {
                 const img = getBestFrame(clampedFrame);
                 if (img) {
-                    drawFrame(img);
-                    lastDrawnFrame = clampedFrame;
+                    const ok = drawFrame(img);
+                    if (ok) lastDrawnFrame = clampedFrame;
                 }
             }
 
@@ -324,8 +315,8 @@
                 currentFrame = targetFrame;
                 const finalImg = getBestFrame(Math.round(targetFrame));
                 if (finalImg) {
-                    drawFrame(finalImg);
-                    lastDrawnFrame = Math.round(targetFrame);
+                    const ok = drawFrame(finalImg);
+                    if (ok) lastDrawnFrame = Math.round(targetFrame);
                 }
                 isLoopRunning = false;
             }
@@ -338,60 +329,54 @@
             }
         }
 
-        // GSAP ScrollTrigger Integration
+        // GSAP ScrollTrigger Master Timeline for Ultra-Smooth Inertia & Long Sticky Plateaus
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.create({
-                trigger: track,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 0.6,
-                onUpdate: (self) => {
-                    const progress = self.progress;
-
-                    // 0.0 -> 0.88: Scrub all 77 frames
-                    // 0.88 -> 1.0: Settle on beauty angle and exit smoothly
-                    const scrubProgress = Math.min(progress / 0.88, 1.0);
-                    targetFrame = Math.min(Math.round(scrubProgress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
-                    triggerRender();
-
-                    // Smooth end-of-track exit transition
-                    if (progress > 0.68) {
-                        const endPhase = (progress - 0.68) / 0.32;
-                        const easedEnd = Math.min(1.0, Math.max(0.0, endPhase));
-
-                        if (flankLeft) {
-                            gsap.set(flankLeft, {
-                                x: -35 * easedEnd,
-                                opacity: 1 - Math.pow(easedEnd, 1.4)
-                            });
-                        }
-                        if (flankRight) {
-                            gsap.set(flankRight, {
-                                x: 35 * easedEnd,
-                                opacity: 1 - Math.pow(easedEnd, 1.4)
-                            });
-                        }
-                        if (viewfinder) {
-                            gsap.set(viewfinder, {
-                                opacity: 1 - Math.pow(easedEnd, 1.6),
-                                scale: 1 + 0.03 * easedEnd
-                            });
-                        }
-                        if (brandText) {
-                            gsap.set(brandText, {
-                                yPercent: -2 - 10 * easedEnd,
-                                opacity: 0.95 - 0.5 * easedEnd,
-                                scale: 1 - 0.04 * easedEnd
-                            });
-                        }
-                    } else {
-                        if (flankLeft) gsap.set(flankLeft, { x: 0, opacity: 1 });
-                        if (flankRight) gsap.set(flankRight, { x: 0, opacity: 1 });
-                        if (viewfinder) gsap.set(viewfinder, { opacity: 1, scale: 1 });
-                        if (brandText) gsap.set(brandText, { yPercent: -2, opacity: 0.95, scale: 1 });
+            // Master Timeline with generous 1.2s scrub inertia for liquid smoothness
+            const heroTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: track,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 1.2,
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        // Scrub 77 frames seamlessly across 0.0 -> 0.85
+                        const scrubProgress = Math.min(progress / 0.85, 1.0);
+                        targetFrame = Math.min(Math.round(scrubProgress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
+                        triggerRender();
                     }
                 }
             });
+
+            // 1. Watermark ("NOMOTION" floating ambiently in background):
+            // Starts invisible at scroll=0, gently glides up & fades in, then floats up and out
+            if (watermark) {
+                gsap.set(watermark, { yPercent: 40, opacity: 0 });
+                heroTL.to(watermark, { yPercent: 0, opacity: 0.08, duration: 0.16, ease: 'power1.out' }, 0.02);
+                heroTL.to(watermark, { yPercent: -40, opacity: 0, duration: 0.18, ease: 'power1.in' }, 0.22);
+            }
+
+            // 2. Note 1 (Left: MODEL 100 TITAN 6K):
+            // 0.04 -> 0.18: Glides up smoothly like silk from +70vh -> 0vh (opacity 0 -> 1)
+            // 0.18 -> 0.44: STAYS 100% PINNED & STICKY BESIDE CAMERA (Long comfortable reading window!)
+            // 0.44 -> 0.58: Glides smoothly away upwards to -70vh (opacity 1 -> 0)
+            if (streamLeft) {
+                gsap.set(streamLeft, { y: '70vh', opacity: 0 });
+                heroTL.to(streamLeft, { y: '0vh', opacity: 1, duration: 0.14, ease: 'power2.out' }, 0.04);
+                // Sticky plateau during 0.18 -> 0.44
+                heroTL.to(streamLeft, { y: '-70vh', opacity: 0, duration: 0.14, ease: 'power2.in' }, 0.44);
+            }
+
+            // 3. Note 2 (Right: 1.8X ANAMORPHIC T1.5):
+            // 0.48 -> 0.64: Glides up smoothly from +70vh -> 0vh (opacity 0 -> 1)
+            // 0.64 -> 0.88: STAYS 100% PINNED & STICKY BESIDE CAMERA BEAUTY FRAME (Long comfortable reading window!)
+            // 0.88 -> 1.00: Smoothly dissolves and departs as hero finishes
+            if (streamRight) {
+                gsap.set(streamRight, { y: '70vh', opacity: 0 });
+                heroTL.to(streamRight, { y: '0vh', opacity: 1, duration: 0.16, ease: 'power2.out' }, 0.48);
+                // Sticky plateau during 0.64 -> 0.88
+                heroTL.to(streamRight, { y: '-70vh', opacity: 0, duration: 0.12, ease: 'power2.in' }, 0.88);
+            }
         } else {
             function onScroll() {
                 const rect = track.getBoundingClientRect();
@@ -399,7 +384,7 @@
                 if (trackHeight <= 0) return;
 
                 const rawProgress = Math.min(Math.max(-rect.top / trackHeight, 0), 1);
-                const scrubProgress = Math.min(rawProgress / 0.88, 1.0);
+                const scrubProgress = Math.min(rawProgress / 0.85, 1.0);
                 targetFrame = Math.min(Math.round(scrubProgress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
                 triggerRender();
             }
@@ -1053,15 +1038,8 @@
                 }
             });
 
-            const footer = document.querySelector('.footer');
-            if (footer) {
-                ScrollTrigger.create({
-                    trigger: footer,
-                    start: 'top 92%',
-                    once: true,
-                    onEnter: () => footer.classList.add('is-visible')
-                });
-            }
+            const footers = document.querySelectorAll('.footer');
+            footers.forEach(f => f.classList.add('is-visible'));
         } else {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1261,6 +1239,152 @@
         });
     }
 
+    /* ==========================================================================
+       16. FOOTER TELEMETRY CLOCK
+       ========================================================================== */
+    function initFooterClock() {
+        const clockEls = document.querySelectorAll('#footerLiveClock');
+        if (!clockEls.length) return;
+
+        function update() {
+            try {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('de-CH', { timeZone: 'Europe/Zurich' }) + ' CET';
+                clockEls.forEach(el => {
+                    el.textContent = timeString;
+                });
+            } catch (e) {
+                const now = new Date();
+                const timeString = String(now.getHours()).padStart(2, '0') + ':' +
+                                   String(now.getMinutes()).padStart(2, '0') + ':' +
+                                   String(now.getSeconds()).padStart(2, '0') + ' CET';
+                clockEls.forEach(el => {
+                    el.textContent = timeString;
+                });
+            }
+        }
+
+        setInterval(update, 1000);
+        update();
+    }
+
+    /* ==========================================================================
+       17. FOOTER BACK TO TOP SMOOTH SCROLL
+       ========================================================================== */
+    function initBackToTop() {
+        const btn = document.getElementById('footerBackToTop');
+        if (!btn) return;
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+                window.lenis.scrollTo(0, { duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    }
+
+    /* ==========================================================================
+       18. FOOTER LEGAL MODALS SYSTEM (Impressum & Datenschutz)
+       ========================================================================== */
+    function initFooterModals() {
+        const modalButtons = document.querySelectorAll('[data-modal-target]');
+        const closeButtons = document.querySelectorAll('[data-modal-close]');
+        const backdrops = document.querySelectorAll('.footer-modal-backdrop');
+
+        function openModal(modalId) {
+            const targetModal = document.getElementById(modalId);
+            if (!targetModal) return;
+
+            targetModal.classList.add('is-open');
+            targetModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            if (window.lenis) window.lenis.stop();
+
+            const closeBtn = targetModal.querySelector('.modal-close-btn');
+            if (closeBtn) closeBtn.focus();
+        }
+
+        function closeModal(modal) {
+            if (!modal) return;
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            
+            const anyOpen = document.querySelector('.footer-modal-backdrop.is-open');
+            if (!anyOpen) {
+                document.body.style.overflow = '';
+                if (window.lenis) window.lenis.start();
+            }
+        }
+
+        modalButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = btn.getAttribute('data-modal-target');
+                if (targetId) openModal(targetId);
+            });
+        });
+
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const modal = btn.closest('.footer-modal-backdrop');
+                if (modal) closeModal(modal);
+            });
+        });
+
+        backdrops.forEach(backdrop => {
+            backdrop.addEventListener('click', (e) => {
+                if (e.target === backdrop) {
+                    closeModal(backdrop);
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const openModals = document.querySelectorAll('.footer-modal-backdrop.is-open');
+                openModals.forEach(modal => closeModal(modal));
+            }
+        });
+    }
+
+    /* ==========================================================================
+       19. FOOTER WHITEPAPER DISPATCH FORM
+       ========================================================================== */
+    function initFooterDispatch() {
+        const forms = document.querySelectorAll('.footer-dispatch-form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const input = form.querySelector('.dispatch-input');
+                const feedback = form.querySelector('.dispatch-feedback');
+                const btn = form.querySelector('.dispatch-btn');
+                if (!input || !feedback) return;
+
+                const val = input.value.trim();
+                if (!val || !val.includes('@')) {
+                    feedback.className = 'dispatch-feedback error';
+                    feedback.textContent = '✕ Bitte eine gültige E-Mail angeben.';
+                    return;
+                }
+
+                feedback.className = 'dispatch-feedback success';
+                feedback.textContent = '✓ Whitepaper & MTF-Paket übermittelt!';
+                input.value = '';
+                input.disabled = true;
+                if (btn) btn.disabled = true;
+
+                setTimeout(() => {
+                    feedback.textContent = '';
+                    input.disabled = false;
+                    if (btn) btn.disabled = false;
+                }, 5000);
+            });
+        });
+    }
+
     // Clean up any stale theme attributes
     try {
         localStorage.removeItem('nomotion_theme');
@@ -1268,21 +1392,35 @@
     } catch (e) { }
 
     function initAll() {
-        initLenisAndGsap();
-        initSmartNavbar();
-        initPageEntrance();
-        initVideoHero();
-        initMenu();
-        initInfiniteStream();
-        initSpatialTilt();
-        initScrollReveal();
-        initLiveTimecode();
-        initMtfDrawOn();
-        initChipRipple();
-        initWeightCounter();
-        initClockPulse();
-        initAutoRotateIntro();
-        initHudTypewriter();
+        const modules = [
+            { name: 'initLenisAndGsap', fn: initLenisAndGsap },
+            { name: 'initSmartNavbar', fn: initSmartNavbar },
+            { name: 'initPageEntrance', fn: initPageEntrance },
+            { name: 'initVideoHero', fn: initVideoHero },
+            { name: 'initMenu', fn: initMenu },
+            { name: 'initInfiniteStream', fn: initInfiniteStream },
+            { name: 'initSpatialTilt', fn: initSpatialTilt },
+            { name: 'initScrollReveal', fn: initScrollReveal },
+            { name: 'initLiveTimecode', fn: initLiveTimecode },
+            { name: 'initMtfDrawOn', fn: initMtfDrawOn },
+            { name: 'initChipRipple', fn: initChipRipple },
+            { name: 'initWeightCounter', fn: initWeightCounter },
+            { name: 'initClockPulse', fn: initClockPulse },
+            { name: 'initAutoRotateIntro', fn: initAutoRotateIntro },
+            { name: 'initHudTypewriter', fn: initHudTypewriter },
+            { name: 'initFooterClock', fn: initFooterClock },
+            { name: 'initBackToTop', fn: initBackToTop },
+            { name: 'initFooterModals', fn: initFooterModals },
+            { name: 'initFooterDispatch', fn: initFooterDispatch }
+        ];
+
+        modules.forEach(mod => {
+            try {
+                if (typeof mod.fn === 'function') mod.fn();
+            } catch (err) {
+                console.error('[NoMotion Error] in module ' + mod.name + ':', err);
+            }
+        });
     }
 
     if (document.readyState === 'loading') {

@@ -15,7 +15,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
-    <link rel="stylesheet" href="css/style.css?v=6.2">
+    <link rel="stylesheet" href="css/style.css?v=7.2">
 </head>
 
 <body>
@@ -84,12 +84,55 @@
     <!-- Scrollable Video Canvas Hero Section (Smooth Slower Cinema Scrub) -->
     <section class="video-hero-track" id="videoHeroTrack">
         <div class="video-hero-sticky">
-            <!-- Massive Brand Typography Layer (BEHIND Camera, on white background) -->
-            <div class="hero-bg-brand-layer">
-                <span class="hero-bg-brand-text">NOMOTION</span>
+            <!-- Background Stream Layer (BEHIND Camera, z-index: 1) -->
+            <div class="hero-bg-stream-layer" id="heroBgStreamLayer">
+                <!-- Ambient Watermark -->
+                <div class="hero-bg-watermark" id="heroBrandWatermark">NOMOTION</div>
+
+                <!-- 1. Left Stream Item: Scrolls into view first on the left, then scrolls past -->
+                <div class="hero-stream-card hero-stream-left" id="heroStreamLeft">
+                    <div class="stream-card-tag">01 // ARCHITECTURE</div>
+                    <h3 class="stream-card-title">MODEL 100 TITAN 6K</h3>
+                    <p class="stream-card-desc">Unibody-System • Zürcher Reinraum</p>
+                    <div class="stream-card-specs">
+                        <div class="stream-spec-row">
+                            <span class="stream-spec-label">SENSOR:</span>
+                            <span class="stream-spec-val">8K Large Format RAW</span>
+                        </div>
+                        <div class="stream-spec-row">
+                            <span class="stream-spec-label">BUS:</span>
+                            <span class="stream-spec-val">NVMe Direct Zero Latency</span>
+                        </div>
+                        <div class="stream-spec-row">
+                            <span class="stream-spec-label">DYNAMIC:</span>
+                            <span class="stream-spec-val">16.5+ Stops Dual Native</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Right Stream Item: Scrolls into view afterwards on the right -->
+                <div class="hero-stream-card hero-stream-right" id="heroStreamRight">
+                    <div class="stream-card-tag">02 // OPTICAL SYSTEM</div>
+                    <h3 class="stream-card-title">1.8X ANAMORPHIC T1.5</h3>
+                    <p class="stream-card-desc">Submikron-kalibrierte Prime-Optik</p>
+                    <div class="stream-card-specs">
+                        <div class="stream-spec-row">
+                            <span class="stream-spec-label">CHASSIS:</span>
+                            <span class="stream-spec-val">Titanium Grade 5 Unibody</span>
+                        </div>
+                        <div class="stream-spec-row">
+                            <span class="stream-spec-label">COATING:</span>
+                            <span class="stream-spec-val">Amber Streak Multi-Layer</span>
+                        </div>
+                        <div class="stream-spec-row">
+                            <span class="stream-spec-label">ORIGIN:</span>
+                            <span class="stream-spec-val">Zürich Cleanroom ISO 5</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 77-Frame High-Performance Cinema Canvas (IN FRONT of text) -->
+            <!-- 77-Frame High-Performance Cinema Canvas (IN FRONT of text layer, z-index: 2) -->
             <canvas id="videoCanvas" class="video-canvas"></canvas>
 
             <!-- Weicher Blur-Blend oben (Weiß zu Video) -->
@@ -105,41 +148,6 @@
                 <div class="vf-corner vf-bl"></div>
                 <div class="vf-corner vf-br"></div>
                 <div class="vf-crosshair"></div>
-            </div>
-
-            <!-- Minimalistisches Flankierendes Layout (Symmetrische Telemetrie Links & Rechts) -->
-            <div class="hero-flank-container">
-                <!-- Linke Flanke: Optische System-Spezifikationen -->
-                <div class="hero-flank hero-flank-left">
-                    <div class="hero-spec-item">
-                        <span class="hero-spec-label">SERIES ARCHITECTURE</span>
-                        <span class="hero-spec-val">ANAMORPHIC PRIME</span>
-                    </div>
-                    <div class="hero-spec-item">
-                        <span class="hero-spec-label">OPTICAL ORIGIN</span>
-                        <span class="hero-spec-val">ZÜRICH // SWITZERLAND</span>
-                    </div>
-                    <div class="hero-spec-item">
-                        <span class="hero-spec-label">CALIBRATION LEVEL</span>
-                        <span class="hero-spec-val">SUB-MICRON MTF 8K+</span>
-                    </div>
-                </div>
-
-                <!-- Rechte Flanke: Kamera- & Sensor-Spezifikationen -->
-                <div class="hero-flank hero-flank-right">
-                    <div class="hero-spec-item">
-                        <span class="hero-spec-label">SQUEEZE RATIO</span>
-                        <span class="hero-spec-val">1.8X ANAMORPHIC</span>
-                    </div>
-                    <div class="hero-spec-item">
-                        <span class="hero-spec-label">OPTICAL COATING</span>
-                        <span class="hero-spec-val">TITANIUM NANO-MULTI</span>
-                    </div>
-                    <div class="hero-spec-item">
-                        <span class="hero-spec-label">SENSOR COVERAGE</span>
-                        <span class="hero-spec-val">LARGE FORMAT 8K RAW</span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -380,16 +388,50 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div>© 2026 NoMotion Optical Systems. All rights reserved.</div>
-        <div class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</div>
+    <!-- Minimalist Swiss Footer -->
+    <footer class="footer" id="siteFooter">
+        <div class="footer-container">
+            <!-- Left: Brand & Direct Impressum Information -->
+            <div class="footer-brand-block">
+                <a href="index.html" class="footer-brand-link" aria-label="NoMotion Startseite">
+                    <img src="assets/icons/logo-dark.svg" alt="NoMotion Logo" class="footer-logo">
+                </a>
+                <div class="footer-legal-snippet">
+                    <strong>NoMotion Optical Systems AG</strong><br>
+                    Technoparkstrasse 1 • CH-8005 Zürich, Schweiz<br>
+                    Handelsregister Zürich • UID: CHE-492.108.334 • MWST
+                </div>
+            </div>
+
+            <!-- Right: Founder & Contact Details + Clean Direct Links -->
+            <div class="footer-contact-block">
+                <div class="footer-person-info">
+                    <span class="footer-label">LEITUNG &amp; FOUNDER</span>
+                    <span class="footer-person-name">Adrian Thelemann</span>
+                    <a href="mailto:thelemanna2@icloud.com" class="footer-link">thelemanna2@icloud.com</a>
+                </div>
+
+                <div class="footer-nav-clean">
+                    <a href="impressum.html" class="footer-clean-link">Impressum</a>
+                    <span class="footer-sep">•</span>
+                    <a href="datenschutz.html" class="footer-clean-link">Datenschutz</a>
+                    <span class="footer-sep">•</span>
+                    <a href="contact.html" class="footer-clean-link">Labor Kontakt</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom minimal baseline -->
+        <div class="footer-bottom-simple">
+            <span>© 2026 NoMotion Optical Systems AG. Alle Rechte vorbehalten.</span>
+            <span class="footer-mono">2.39:1 • SWISS OPTICAL ENGINEERING</span>
+        </div>
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="js/main.js?v=6.1"></script>
+    <script src="js/main.js?v=7.2"></script>
 </body>
 
 </html>
