@@ -15,7 +15,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
-    <link rel="stylesheet" href="css/style.css?v=5.4">
+    <link rel="stylesheet" href="css/style.css?v=6.0">
 </head>
 
 <body>
@@ -252,7 +252,9 @@
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-    <script src="js/main.js?v=5.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/main.js?v=6.0"></script>
     <script>
         // Live CET Clock
         function updateClock() {
@@ -285,9 +287,17 @@
             const cases = btn.getAttribute('data-cases');
             const name = btn.getAttribute('data-name');
 
-            document.getElementById('selectedPackageName').textContent = name;
-            // Weight animation is handled by initWeightCounter() in main.js
-            document.getElementById('totalCasesDisplay').textContent = cases + (cases === '1' ? ' FLIGHT BOX' : ' FLIGHT BOXES');
+            const nameEl = document.getElementById('selectedPackageName');
+            const casesEl = document.getElementById('totalCasesDisplay');
+
+            if (nameEl) {
+                nameEl.textContent = name;
+                if (typeof gsap !== 'undefined') gsap.fromTo(nameEl, { opacity: 0.5, y: -3 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+            }
+            if (casesEl) {
+                casesEl.textContent = cases + (cases === '1' ? ' FLIGHT BOX' : ' FLIGHT BOXES');
+                if (typeof gsap !== 'undefined') gsap.fromTo(casesEl, { opacity: 0.5, y: -3 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+            }
         });
     </script>
 </body>

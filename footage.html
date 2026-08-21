@@ -15,7 +15,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
-    <link rel="stylesheet" href="css/style.css?v=5.4">
+    <link rel="stylesheet" href="css/style.css?v=6.0">
 </head>
 
 <body>
@@ -213,7 +213,9 @@
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-    <script src="js/main.js?v=5.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/main.js?v=6.0"></script>
     <script>
         // Interactive Flare Streak Slider
         const flareSlider = document.getElementById('flareSlider');
@@ -229,8 +231,11 @@
             flareSlider.addEventListener('input', (e) => {
                 const idx = parseInt(e.target.value, 10);
                 flareLabel.textContent = flareModes[idx].text;
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(flareLabel, { scale: 0.94, opacity: 0.7 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.4)' });
+                }
                 activeFootage.style.filter = flareModes[idx].filter;
-                activeFootage.style.transition = 'filter 0.4s ease';
+                activeFootage.style.transition = 'filter 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
             });
         }
 

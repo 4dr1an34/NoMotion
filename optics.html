@@ -15,7 +15,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
-    <link rel="stylesheet" href="css/style.css?v=5.4">
+    <link rel="stylesheet" href="css/style.css?v=6.0">
 </head>
 
 <body>
@@ -276,9 +276,11 @@
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-    <script src="js/main.js?v=5.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/main.js?v=6.0"></script>
     <script>
-        // Interactive Focal Length Switcher Logic with Telemetry Flash Animation
+        // Interactive Focal Length Switcher Logic with GSAP Telemetry Flash Animation
         document.querySelectorAll('.focal-item-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.focal-item-btn').forEach(b => b.classList.remove('is-active'));
@@ -291,7 +293,16 @@
                 const weight = btn.getAttribute('data-weight');
                 const front = btn.getAttribute('data-front');
 
-                // Animate telemetry values with flash
+                // GSAP Lens Image Micro-Punch
+                const lensImg = document.querySelector('.swiss-stage-img');
+                if (typeof gsap !== 'undefined' && lensImg) {
+                    gsap.fromTo(lensImg, 
+                        { scale: 0.96, opacity: 0.75 }, 
+                        { scale: 1.0, opacity: 1.0, duration: 0.35, ease: 'power2.out' }
+                    );
+                }
+
+                // Animate telemetry values with flash & rolling
                 const vals = [
                     { el: document.getElementById('telemetryFov'), text: fov },
                     { el: document.getElementById('telemetryAperture'), text: aperture + ' ULTRA-SPEED' },
@@ -305,13 +316,22 @@
                     setTimeout(() => {
                         v.el.classList.add('is-rolling');
                         v.el.textContent = v.text;
+                        if (typeof gsap !== 'undefined') {
+                            gsap.fromTo(v.el, { opacity: 0.3, y: -4 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power1.out' });
+                        }
                         v.el.addEventListener('animationend', () => {
                             v.el.classList.remove('is-rolling');
                         }, { once: true });
-                    }, i * 50);
+                    }, i * 40);
                 });
 
-                document.getElementById('hudLensTitle').textContent = `SERIES // ${focal}MM ${aperture} OPTIK`;
+                const hudTitle = document.getElementById('hudLensTitle');
+                if (hudTitle) {
+                    hudTitle.textContent = `SERIES // ${focal}MM ${aperture} OPTIK`;
+                    if (typeof gsap !== 'undefined') {
+                        gsap.fromTo(hudTitle, { color: '#e5a93c' }, { color: 'rgba(0,0,0,0.7)', duration: 0.6, ease: 'power2.out' });
+                    }
+                }
             });
         });
     </script>

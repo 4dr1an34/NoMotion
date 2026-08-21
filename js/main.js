@@ -1,37 +1,60 @@
 /**
- * NOMOTION — Main JavaScript Engine
- * 1. Always-Visible Cool Floating Navbar (Smooth Compact State)
- * 2. 240-Frame Scroll-Scrub Video Canvas Engine (High-Performance & High-DPI)
- * 3. 3D Cylindrical Wheel with Precision 2D-Raycasting Hitbox Engine
+ * NOMOTION — High-Precision GSAP Cinema Engine
+ * 1. Lenis Smooth Scroll + GSAP ScrollTrigger Sync
+ * 2. Cinematic Page-Load Intro Timelines & Reticle Locking
+ * 3. 77-Frame Scroll-Scrub Video Canvas Engine with Silky End Exit
+ * 4. 3D Cylindrical Rotary Wheel Navigation with Precision Hitboxes
+ * 5. Infinite Interactive Card Stream with GSAP Spring Physics
+ * 6. GSAP QuickTo Magnetic Button & Micro-Physics Engine
+ * 7. Spatial 3D Perspective Tilt System
+ * 8. GSAP ScrollTrigger Staggered 3D Reveals
+ * 9. Subpage Interactive Telemetry, SVG Morphing & VFX Simulators
  */
 
 (function () {
+    'use strict';
+
     /* ==========================================================================
-       0. LENIS SMOOTH SCROLL ENGINE (Darkroom Engineering)
+       0. LENIS SMOOTH SCROLL + GSAP SCROLLTRIGGER SYNC ENGINE
        ========================================================================== */
     let lenisInstance = null;
 
-    function initLenis() {
-        if (typeof Lenis === 'undefined') return;
+    function initLenisAndGsap() {
+        if (typeof Lenis !== 'undefined') {
+            lenisInstance = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                orientation: 'vertical',
+                gestureOrientation: 'vertical',
+                smoothWheel: true,
+                wheelMultiplier: 1.0,
+                touchMultiplier: 1.5,
+                infinite: false,
+            });
 
-        lenisInstance = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 1.0,
-            touchMultiplier: 1.5,
-            infinite: false,
-        });
+            window.lenis = lenisInstance;
 
-        window.lenis = lenisInstance;
+            // Connect Lenis to GSAP ScrollTrigger
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
 
-        function raf(time) {
-            lenisInstance.raf(time);
-            requestAnimationFrame(raf);
+                lenisInstance.on('scroll', ScrollTrigger.update);
+
+                gsap.ticker.add((time) => {
+                    lenisInstance.raf(time * 1000);
+                });
+
+                gsap.ticker.lagSmoothing(0);
+            } else {
+                function raf(time) {
+                    lenisInstance.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+        } else if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
         }
-        requestAnimationFrame(raf);
     }
 
     /* ==========================================================================
@@ -65,9 +88,80 @@
         updateNavbar();
     }
 
+    /* ==========================================================================
+       2. CINEMATIC PAGE-LOAD ENTRANCE TIMELINES (Autofocus & Typography Tracking)
+       ========================================================================== */
+    function initPageEntrance() {
+        if (typeof gsap === 'undefined') return;
+
+        const isHero = document.getElementById('videoHeroTrack');
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        if (isHero) {
+            // Index Hero Viewfinder & Brand Sequence
+            const viewfinder = document.querySelector('.viewfinder-frame');
+            const vfCorners = document.querySelectorAll('.vf-corner');
+            const brandText = document.querySelector('.hero-bg-brand-text');
+            const flankLeftItems = document.querySelectorAll('.hero-flank-left .hero-spec-item');
+            const flankRightItems = document.querySelectorAll('.hero-flank-right .hero-spec-item');
+            const canvas = document.getElementById('videoCanvas');
+
+            if (viewfinder) {
+                tl.fromTo(viewfinder,
+                    { opacity: 0, scale: 1.08 },
+                    { opacity: 1, scale: 1.0, duration: 1.1, ease: 'expo.out' }, 0.1
+                );
+            }
+
+            if (vfCorners.length) {
+                tl.fromTo(vfCorners,
+                    { scale: 1.5, opacity: 0 },
+                    { scale: 1.0, opacity: 1, stagger: 0.06, duration: 0.8, ease: 'back.out(1.8)' }, 0.2
+                );
+            }
+
+            if (brandText) {
+                tl.fromTo(brandText,
+                    { opacity: 0, scale: 1.06, letterSpacing: '0.04em' },
+                    { opacity: 0.95, scale: 1.0, letterSpacing: '-0.04em', duration: 1.4, ease: 'power4.out' }, 0.25
+                );
+            }
+
+            if (canvas) {
+                tl.fromTo(canvas,
+                    { opacity: 0, scale: 0.94 },
+                    { opacity: 1, scale: 1.0, duration: 1.2, ease: 'power2.out' }, 0.35
+                );
+            }
+
+            if (flankLeftItems.length) {
+                tl.fromTo(flankLeftItems,
+                    { opacity: 0, x: -25 },
+                    { opacity: 1, x: 0, stagger: 0.08, duration: 0.75, ease: 'power2.out' }, 0.5
+                );
+            }
+
+            if (flankRightItems.length) {
+                tl.fromTo(flankRightItems,
+                    { opacity: 0, x: 25 },
+                    { opacity: 1, x: 0, stagger: 0.08, duration: 0.75, ease: 'power2.out' }, 0.5
+                );
+            }
+        } else {
+            // Subpages: Header Minimal & Hero Stagger
+            const heroMinimal = document.querySelector('.hero-minimal');
+            if (heroMinimal) {
+                const children = heroMinimal.children;
+                tl.fromTo(children,
+                    { opacity: 0, y: 28 },
+                    { opacity: 1, y: 0, stagger: 0.1, duration: 0.85, ease: 'power3.out' }, 0.15
+                );
+            }
+        }
+    }
 
     /* ==========================================================================
-       2. SCROLLABLE VIDEO CANVAS HERO ENGINE (77 High-Res Frames Cinema Scrub)
+       3. GSAP SCROLLABLE VIDEO CANVAS HERO ENGINE (77 Frames + Silky End Phase)
        ========================================================================== */
     function initVideoHero() {
         const track = document.getElementById('videoHeroTrack');
@@ -79,9 +173,13 @@
         const images = new Array(TOTAL_FRAMES);
         const loaded = new Array(TOTAL_FRAMES).fill(false);
 
+        const flankLeft = document.querySelector('.hero-flank-left');
+        const flankRight = document.querySelector('.hero-flank-right');
+        const viewfinder = document.querySelector('.viewfinder-frame');
+        const brandText = document.querySelector('.hero-bg-brand-text');
+
         let targetFrame = 0;
         let currentFrame = 0;
-        let isScrubbing = false;
         let lastDrawnFrame = -1;
         let cw = 0, ch = 0;
 
@@ -110,12 +208,12 @@
             const ih = source.naturalHeight || source.videoHeight || source.height || 1080;
             if (!iw || !ih) return;
 
-            // Responsive framing: on desktop landscape use cover; on mobile portrait use intelligent contain-scale
             let ratio;
             if (cw < ch) {
-                // Mobile Portrait: Ausgewogene, elegante Skalierung (Kamera dominiert nicht den ganzen Screen & verdeckt NOMOTION / Telemetrie nicht)
+                // Mobile Portrait
                 ratio = Math.min((cw / iw) * 1.18, (ch / ih) * 0.44);
             } else {
+                // Desktop Landscape
                 ratio = Math.max(cw / iw, ch / ih);
             }
 
@@ -130,7 +228,7 @@
             ctx.drawImage(source, nx, ny, nw, nh);
         }
 
-        // Hardware-Accelerated Pristine Master Video Fallback Engine
+        // Hardware-Accelerated Video Fallback
         const video = document.createElement('video');
         video.src = 'assets/hero_camera.webm';
         video.muted = true;
@@ -149,7 +247,7 @@
         });
         video.load();
 
-        // Fast parallel preloader for all 77 frames
+        // High-Performance Parallel Preloader with HTML5 decode()
         function loadFrame(idx, onDone) {
             if (images[idx]) {
                 if (loaded[idx] && onDone) onDone(images[idx]);
@@ -177,22 +275,20 @@
             }
         }
 
-        // 1. Immediately load and draw frame 0
+        // Immediately load and draw frame 0
         loadFrame(0, (firstImg) => {
             drawFrame(firstImg);
             lastDrawnFrame = 0;
         });
 
-        // 2. Preload all remaining frames in parallel without delay
+        // Preload all remaining frames in parallel
         for (let i = 1; i < TOTAL_FRAMES; i++) {
             loadFrame(i);
         }
 
-        // Deterministic neighbor-only lookup (NEVER jumps back to distant frames)
         function getBestFrame(idx) {
             if (loaded[idx] && images[idx]) return images[idx];
 
-            // Only check immediate neighbors (+/- 3 frames)
             for (let offset = 1; offset <= 3; offset++) {
                 if (idx - offset >= 0 && loaded[idx - offset] && images[idx - offset]) {
                     return images[idx - offset];
@@ -201,17 +297,17 @@
                     return images[idx + offset];
                 }
             }
-            // If still loading, keep currently drawn frame to avoid jumping!
             if (lastDrawnFrame >= 0 && loaded[lastDrawnFrame] && images[lastDrawnFrame]) {
                 return images[lastDrawnFrame];
             }
             return images[0] || (isVideoReady ? video : null);
         }
 
+        // Frame rendering tick with Lerp
         let isLoopRunning = false;
         function renderLoop() {
             const diff = targetFrame - currentFrame;
-            currentFrame += diff * 0.14;
+            currentFrame += diff * 0.16;
             const roundedFrame = Math.round(currentFrame);
             const clampedFrame = Math.max(0, Math.min(TOTAL_FRAMES - 1, roundedFrame));
 
@@ -236,33 +332,91 @@
             }
         }
 
-        function onScroll() {
-            const rect = track.getBoundingClientRect();
-            const trackHeight = track.offsetHeight - window.innerHeight;
-            if (trackHeight <= 0) return;
-
-            const progress = Math.min(Math.max(-rect.top / trackHeight, 0), 1);
-            targetFrame = Math.min(Math.round(progress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
-
+        function triggerRender() {
             if (!isLoopRunning) {
                 isLoopRunning = true;
                 requestAnimationFrame(renderLoop);
             }
         }
 
-        window.addEventListener('scroll', onScroll, { passive: true });
+        // GSAP ScrollTrigger Integration
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.create({
+                trigger: track,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 0.6,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+
+                    // 0.0 -> 0.88: Scrub all 77 frames
+                    // 0.88 -> 1.0: Settle on beauty angle and exit smoothly
+                    const scrubProgress = Math.min(progress / 0.88, 1.0);
+                    targetFrame = Math.min(Math.round(scrubProgress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
+                    triggerRender();
+
+                    // Smooth end-of-track exit transition
+                    if (progress > 0.68) {
+                        const endPhase = (progress - 0.68) / 0.32;
+                        const easedEnd = Math.min(1.0, Math.max(0.0, endPhase));
+
+                        if (flankLeft) {
+                            gsap.set(flankLeft, {
+                                x: -35 * easedEnd,
+                                opacity: 1 - Math.pow(easedEnd, 1.4)
+                            });
+                        }
+                        if (flankRight) {
+                            gsap.set(flankRight, {
+                                x: 35 * easedEnd,
+                                opacity: 1 - Math.pow(easedEnd, 1.4)
+                            });
+                        }
+                        if (viewfinder) {
+                            gsap.set(viewfinder, {
+                                opacity: 1 - Math.pow(easedEnd, 1.6),
+                                scale: 1 + 0.03 * easedEnd
+                            });
+                        }
+                        if (brandText) {
+                            gsap.set(brandText, {
+                                yPercent: -2 - 10 * easedEnd,
+                                opacity: 0.95 - 0.5 * easedEnd,
+                                scale: 1 - 0.04 * easedEnd
+                            });
+                        }
+                    } else {
+                        if (flankLeft) gsap.set(flankLeft, { x: 0, opacity: 1 });
+                        if (flankRight) gsap.set(flankRight, { x: 0, opacity: 1 });
+                        if (viewfinder) gsap.set(viewfinder, { opacity: 1, scale: 1 });
+                        if (brandText) gsap.set(brandText, { yPercent: -2, opacity: 0.95, scale: 1 });
+                    }
+                }
+            });
+        } else {
+            function onScroll() {
+                const rect = track.getBoundingClientRect();
+                const trackHeight = track.offsetHeight - window.innerHeight;
+                if (trackHeight <= 0) return;
+
+                const rawProgress = Math.min(Math.max(-rect.top / trackHeight, 0), 1);
+                const scrubProgress = Math.min(rawProgress / 0.88, 1.0);
+                targetFrame = Math.min(Math.round(scrubProgress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
+                triggerRender();
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        }
+
         window.addEventListener('resize', () => {
             updateCanvasSize();
             const img = getBestFrame(Math.round(currentFrame));
             if (img) drawFrame(img);
         }, { passive: true });
-
-        onScroll();
     }
 
-
     /* ==========================================================================
-       3. 3D CYLINDRICAL WHEEL WITH PRECISION HITBOX ENGINE
+       4. 3D CYLINDRICAL WHEEL WITH PRECISION HITBOX ENGINE
        ========================================================================== */
     function initMenu() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -284,9 +438,8 @@
         let isAnimating = false;
         let hoveredIndex = -1;
 
-        // Rendert 3D-Zylinder mit voller Neigung (rotateX) & Tiefe (translateZ)
         function renderWheel() {
-            currentAngle += (targetAngle - currentAngle) * 0.14;
+            currentAngle += (targetAngle - currentAngle) * 0.16;
 
             wheelItems.forEach((item, i) => {
                 const baseAngle = i * stepAngle;
@@ -339,7 +492,6 @@
             return wheelItems[closestIdx];
         }
 
-        // Tastatursteuerung
         document.addEventListener('keydown', (e) => {
             if (!fullscreenMenu.classList.contains('is-open')) return;
 
@@ -361,7 +513,6 @@
             }
         });
 
-        // AUSBALANCIERTE SCROLL-GESCHWINDIGKEIT
         let wheelDeltaAccumulator = 0;
         let lastScrollStepTime = 0;
         let scrollResetTimer = null;
@@ -389,7 +540,6 @@
             }
         }, { passive: false });
 
-        // Touch Swipe
         let touchStartY = 0;
         fullscreenMenu.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
@@ -407,9 +557,6 @@
             }
         }, { passive: true });
 
-        /* ==========================================================================
-           VOLLFLÄCHIGER KOORDINATEN-RAYCASTER FÜR MOUSE-HOVER IM 3D-RAUM
-           ========================================================================== */
         fullscreenMenu.addEventListener('mousemove', (e) => {
             if (!fullscreenMenu.classList.contains('is-open')) return;
 
@@ -455,7 +602,6 @@
             }
         }, { passive: true });
 
-        // Direkte Klick-Handler für alle Menü-Links (Mobil & Desktop 100% zuverlässig)
         wheelItems.forEach((item) => {
             const link = item.querySelector('.wheel-link');
             if (!link) return;
@@ -475,11 +621,8 @@
             });
         });
 
-        // Globaler Klick-Handler für Raycaster & Backdrop-Klick zum Schließen
         fullscreenMenu.addEventListener('click', (e) => {
             if (!fullscreenMenu.classList.contains('is-open')) return;
-
-            // Wenn auf einen Link oder dessen Kind geklickt wurde, wurde das bereits oben behandelt
             if (e.target.closest('.wheel-link')) return;
 
             const mx = e.clientX;
@@ -506,7 +649,6 @@
                 }
             }
 
-            // Klick auf den linken/freien Hintergrund schließt das Menü
             if (!e.target.closest('.wheel-stage') && !e.target.closest('.navbar')) {
                 toggleMenu(true);
             }
@@ -532,6 +674,13 @@
                 hoveredIndex = -1;
                 isAnimating = true;
                 requestAnimationFrame(renderWheel);
+
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(wheelItems,
+                        { scale: 0.7, opacity: 0 },
+                        { scale: 1, opacity: (i) => i === initialIdx ? 1 : 0.65, stagger: 0.04, duration: 0.45, ease: 'back.out(1.4)' }
+                    );
+                }
             } else {
                 fullscreenMenu.classList.remove('is-open');
                 fullscreenMenu.setAttribute('aria-hidden', 'true');
@@ -555,7 +704,7 @@
     }
 
     /* ==========================================================================
-       4. INFINITE INTERACTIVE CARD STREAM (Click-to-Stop & Seamless Wrap)
+       5. INFINITE INTERACTIVE CARD STREAM (No-Cutoff & Smooth Physics)
        ========================================================================== */
     function initInfiniteStream() {
         const track = document.getElementById('streamTrack');
@@ -567,7 +716,6 @@
         const originalCards = Array.from(track.children);
         if (originalCards.length === 0) return;
 
-        // Clone cards to guarantee seamless infinite wrapping
         originalCards.forEach(card => {
             const clone = card.cloneNode(true);
             clone.setAttribute('data-clone', 'true');
@@ -634,32 +782,21 @@
             }
         }
 
-        // Klick-Handler DIREKT an jeder einzelnen Karte (inkl. aller Klone)
         allCards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // Wenn es ein Maus-Drag / Wisch war, Klick ignorieren
-                if (hasMovedFar) {
-                    return;
-                }
-
-                // Wenn direkt auf den externen Link geklickt wurde
-                if (e.target.closest('.stream-card-link')) {
-                    return;
-                }
+                if (hasMovedFar) return;
+                if (e.target.closest('.stream-card-link')) return;
 
                 e.stopPropagation();
 
                 if (card.classList.contains('is-popped')) {
-                    // Zweiter Klick: Zurückploppen & Fortsetzen
                     setPaused(false);
                 } else {
-                    // Erster Klick: Aufploppen & Anhalten
                     setPaused(true, card);
                 }
             });
         });
 
-        // Globaler Klick außerhalb schließt aufgeploppte Karte
         document.addEventListener('click', (e) => {
             if (isPaused && activeCard && !e.target.closest('.stream-card') && !e.target.closest('#streamControlBadge')) {
                 setPaused(false);
@@ -679,7 +816,6 @@
             });
         }
 
-        // Hover handling
         viewportWrapper.addEventListener('mouseenter', () => {
             isHovered = true;
             if (!isPaused && Math.abs(flingVelocity) < 0.5) {
@@ -694,7 +830,6 @@
             }
         });
 
-        // Mouse & Touch Dragging für Rad-Anschwung
         viewportWrapper.addEventListener('mousedown', (e) => {
             if (e.target.closest('.stream-card-link')) return;
             isMouseDown = true;
@@ -754,7 +889,6 @@
             }
         });
 
-        // Touch-Unterstützung für mobile Endgeräte
         viewportWrapper.addEventListener('touchstart', (e) => {
             if (e.target.closest('.stream-card-link')) return;
             if (e.touches.length !== 1) return;
@@ -813,33 +947,27 @@
             }
         });
 
-        // Kinetischer Flywheel Physics Loop (Ausschließlich bei Maus-Geste: Halten & Ziehen)
         let lastTime = performance.now();
         function loop(now) {
             const dt = Math.min((now - lastTime) / 16.667, 2.0);
             lastTime = now;
 
             if (isDragging) {
-                // Während Drag direkt gesteuert
+                // Direct drag position
             } else if (Math.abs(flingVelocity) > 0.08) {
-                // Flywheel Momentum Gleitphase
                 currentSpeed = flingVelocity;
                 currentX -= currentSpeed * dt;
-                // Reibungsverlust (sanftes Ausgleiten wie ein echtes Rad)
                 flingVelocity *= Math.pow(0.962, dt);
 
-                // Wenn Anschwung fast abgeklungen ist, sanft in Normalgeschwindigkeit übergehen
                 if (Math.abs(flingVelocity) <= 0.08) {
                     flingVelocity = 0;
                     currentSpeed = BASE_SPEED;
                 }
             } else {
-                // Normales sanftes Gleiten mit Lerp
                 currentSpeed += (targetSpeed - currentSpeed) * (0.08 * dt);
                 currentX -= currentSpeed * dt;
             }
 
-            // Nahtloses unendliches Wrapping (Seamless Infinite Loop)
             if (singleSetWidth > 0) {
                 while (currentX <= -singleSetWidth) {
                     currentX += singleSetWidth;
@@ -859,54 +987,141 @@
     }
 
     /* ==========================================================================
-       5. GLOBAL SCROLL-REVEAL SYSTEM (IntersectionObserver)
+       6. GSAP MAGNETIC BUTTONS & MICRO-PHYSICS ENGINE
+       ========================================================================== */
+    function initMagneticElements() {
+        if (typeof gsap === 'undefined') return;
+
+        // Interactive magnetic targets
+        const targets = document.querySelectorAll(`
+            .menu-btn,
+            .nav-brand,
+            .form-submit-btn,
+            .focal-item-btn,
+            .angle-thumb-btn,
+            .turntable-nav-btn,
+            .config-chip-btn,
+            .sensor-chip-btn,
+            .stream-card-link,
+            .stream-control-badge
+        `);
+
+        targets.forEach((el) => {
+            const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3.out" });
+            const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3.out" });
+
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const maxPull = el.classList.contains('menu-btn') || el.classList.contains('form-submit-btn') ? 12 : 6;
+                const dx = (e.clientX - centerX) / (rect.width / 2) * maxPull;
+                const dy = (e.clientY - centerY) / (rect.height / 2) * maxPull;
+
+                xTo(dx);
+                yTo(dy);
+            });
+
+            el.addEventListener('mouseleave', () => {
+                xTo(0);
+                yTo(0);
+            });
+        });
+    }
+
+    /* ==========================================================================
+       7. SPATIAL 3D PERSPECTIVE TILT SYSTEM
+       ========================================================================== */
+    function initSpatialTilt() {
+        if (typeof gsap === 'undefined') return;
+
+        const tiltTargets = document.querySelectorAll(`
+            .tilt-card,
+            .blueprint-card,
+            .tech-tower-card,
+            .swiss-exhibition-stage,
+            .cad-blueprint-stage,
+            .mtf-interactive-panel,
+            .footage-hero-theater
+        `);
+
+        tiltTargets.forEach(card => {
+            const rxTo = gsap.quickTo(card, "rotateX", { duration: 0.45, ease: "power2.out" });
+            const ryTo = gsap.quickTo(card, "rotateY", { duration: 0.45, ease: "power2.out" });
+
+            card.style.transformPerspective = '1000px';
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const maxAngle = card.classList.contains('swiss-exhibition-stage') ? 2.5 : 4.0;
+                const rx = ((y - centerY) / centerY) * -maxAngle;
+                const ry = ((x - centerX) / centerX) * maxAngle;
+
+                rxTo(rx);
+                ryTo(ry);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                rxTo(0);
+                ryTo(0);
+            });
+        });
+    }
+
+    /* ==========================================================================
+       8. GSAP SCROLLTRIGGER STAGGERED REVEALS
        ========================================================================== */
     function initScrollReveal() {
         const revealEls = document.querySelectorAll('.reveal');
         if (!revealEls.length) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.batch('.reveal', {
+                start: 'top 88%',
+                once: true,
+                onEnter: (batch) => {
+                    batch.forEach((el, index) => {
+                        el.classList.add('is-visible');
 
-                    // Trigger notch-blink on corner notches inside this element
-                    entry.target.querySelectorAll('.swiss-stage-corner-notch').forEach(notch => {
-                        notch.classList.add('notch-blink');
+                        // Trigger corner notches and glow triggers
+                        el.querySelectorAll('.swiss-stage-corner-notch').forEach(n => n.classList.add('notch-blink'));
+                        el.querySelectorAll('td[style*="font-weight: 800"]').forEach(td => td.classList.add('reveal-glow'));
                     });
-
-                    // Trigger amber highlight on bold spec values
-                    entry.target.querySelectorAll('td[style*="font-weight: 800"]').forEach(td => {
-                        td.classList.add('reveal-glow');
-                    });
-
-                    observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.12,
-            rootMargin: '0px 0px -40px 0px'
-        });
 
-        revealEls.forEach(el => observer.observe(el));
-
-        // Also observe the footer
-        const footer = document.querySelector('.footer');
-        if (footer) {
-            const footerObserver = new IntersectionObserver((entries) => {
+            const footer = document.querySelector('.footer');
+            if (footer) {
+                ScrollTrigger.create({
+                    trigger: footer,
+                    start: 'top 92%',
+                    once: true,
+                    onEnter: () => footer.classList.add('is-visible')
+                });
+            }
+        } else {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        footerObserver.unobserve(entry.target);
+                        entry.target.querySelectorAll('.swiss-stage-corner-notch').forEach(n => n.classList.add('notch-blink'));
+                        entry.target.querySelectorAll('td[style*="font-weight: 800"]').forEach(td => td.classList.add('reveal-glow'));
+                        observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
-            footerObserver.observe(footer);
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+            revealEls.forEach(el => observer.observe(el));
         }
     }
 
     /* ==========================================================================
-       6. FOOTAGE PAGE — Live Timecode Counter
+       9. FOOTAGE PAGE — Live Timecode Counter
        ========================================================================== */
     function initLiveTimecode() {
         const timecodeEl = document.querySelector('.hud-timecode-live');
@@ -925,8 +1140,7 @@
             return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(f).padStart(2, '0')}`;
         }
 
-        // Start from a cinematic offset
-        frames = 1 * 60 * 60 * fps + 24 * 60 * fps + 18 * fps + 14; // 01:24:18:14
+        frames = 1 * 60 * 60 * fps + 24 * 60 * fps + 18 * fps + 14;
 
         setInterval(() => {
             frames++;
@@ -935,64 +1149,34 @@
     }
 
     /* ==========================================================================
-       7. MTF CURVE DRAW-ON ANIMATION (Specs page)
+       10. MTF CURVE DRAW-ON & MORPH (Specs page)
        ========================================================================== */
     function initMtfDrawOn() {
         const mtfSag = document.getElementById('mtfPathSagittal');
         const mtfTan = document.getElementById('mtfPathTangential');
         if (!mtfSag || !mtfTan) return;
 
-        // Add draw-on class
         mtfSag.classList.add('mtf-draw-on');
         mtfTan.classList.add('mtf-draw-on');
 
         const mtfPanel = document.querySelector('.mtf-interactive-panel');
         if (!mtfPanel) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        mtfSag.classList.add('is-drawn');
-                    }, 200);
-                    setTimeout(() => {
-                        mtfTan.classList.add('is-drawn');
-                    }, 500);
-                    observer.unobserve(entry.target);
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.create({
+                trigger: mtfPanel,
+                start: 'top 80%',
+                once: true,
+                onEnter: () => {
+                    setTimeout(() => mtfSag.classList.add('is-drawn'), 200);
+                    setTimeout(() => mtfTan.classList.add('is-drawn'), 500);
                 }
             });
-        }, { threshold: 0.3 });
-
-        observer.observe(mtfPanel);
+        }
     }
 
     /* ==========================================================================
-       8. 3D TILT CARDS (Specs page blueprint cards)
-       ========================================================================== */
-    function initTiltCards() {
-        const tiltCards = document.querySelectorAll('.tilt-card');
-        if (!tiltCards.length) return;
-
-        tiltCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -4;
-                const rotateY = ((x - centerX) / centerX) * 4;
-                card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(600px) rotateX(0) rotateY(0)';
-            });
-        });
-    }
-
-    /* ==========================================================================
-       9. CONFIG CHIP RIPPLE EFFECT (Contact page)
+       11. CONFIG CHIP RIPPLE EFFECT
        ========================================================================== */
     function initChipRipple() {
         const chips = document.querySelectorAll('.config-chip-btn');
@@ -1014,13 +1198,12 @@
     }
 
     /* ==========================================================================
-       10. CONTACT WEIGHT COUNTER SPIN
+       12. CONTACT WEIGHT COUNTER SPIN (GSAP Number Tween)
        ========================================================================== */
     function initWeightCounter() {
         const weightDisplay = document.getElementById('totalWeightDisplay');
         if (!weightDisplay) return;
 
-        // Intercept the lens group selection to animate weight
         const lensGroup = document.getElementById('lensGroup');
         if (!lensGroup) return;
 
@@ -1031,33 +1214,32 @@
 
                 const currentText = weightDisplay.textContent;
                 const currentWeight = parseFloat(currentText) || 0;
-                const duration = 400;
-                const startTime = performance.now();
 
-                weightDisplay.classList.add('counting');
+                if (typeof gsap !== 'undefined') {
+                    const counterObj = { val: currentWeight };
+                    weightDisplay.classList.add('counting');
 
-                function animate(now) {
-                    const elapsed = now - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-                    const current = currentWeight + (targetWeight - currentWeight) * eased;
-                    weightDisplay.textContent = current.toFixed(2) + ' KG';
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        weightDisplay.textContent = targetWeight.toFixed(2) + ' KG';
-                        weightDisplay.classList.remove('counting');
-                    }
+                    gsap.to(counterObj, {
+                        val: targetWeight,
+                        duration: 0.45,
+                        ease: 'power2.out',
+                        onUpdate: () => {
+                            weightDisplay.textContent = counterObj.val.toFixed(2) + ' KG';
+                        },
+                        onComplete: () => {
+                            weightDisplay.textContent = targetWeight.toFixed(2) + ' KG';
+                            weightDisplay.classList.remove('counting');
+                        }
+                    });
+                } else {
+                    weightDisplay.textContent = targetWeight.toFixed(2) + ' KG';
                 }
-
-                requestAnimationFrame(animate);
             });
         });
     }
 
     /* ==========================================================================
-       11. CLOCK TICK PULSE (Contact page CET clock)
+       13. CLOCK TICK PULSE
        ========================================================================== */
     function initClockPulse() {
         const clockEl = document.getElementById('liveCetClock');
@@ -1072,20 +1254,18 @@
     }
 
     /* ==========================================================================
-       12. CAMERAS 360° AUTO-ROTATE INTRO
+       14. CAMERAS 360° AUTO-ROTATE INTRO
        ========================================================================== */
     function initAutoRotateIntro() {
         const thumbButtons = document.querySelectorAll('.angle-thumb-btn');
         if (thumbButtons.length < 2) return;
 
-        // Auto-rotate through angles on page load
         let introIndex = 0;
         const totalAngles = thumbButtons.length;
         const introInterval = setInterval(() => {
             introIndex++;
             if (introIndex >= totalAngles) {
                 clearInterval(introInterval);
-                // Reset to first angle
                 thumbButtons[0].click();
                 return;
             }
@@ -1094,7 +1274,7 @@
     }
 
     /* ==========================================================================
-       13. HUD TYPEWRITER EFFECT (Footage page)
+       15. HUD TYPEWRITER EFFECT
        ========================================================================== */
     function initHudTypewriter() {
         const hudTags = document.querySelectorAll('.hud-typewrite');
@@ -1129,37 +1309,28 @@
         document.documentElement.removeAttribute('data-theme');
     } catch (e) { }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            initLenis();
-            initSmartNavbar();
-            initVideoHero();
-            initMenu();
-            initInfiniteStream();
-            initScrollReveal();
-            initLiveTimecode();
-            initMtfDrawOn();
-            initTiltCards();
-            initChipRipple();
-            initWeightCounter();
-            initClockPulse();
-            initAutoRotateIntro();
-            initHudTypewriter();
-        });
-    } else {
-        initLenis();
+    function initAll() {
+        initLenisAndGsap();
         initSmartNavbar();
+        initPageEntrance();
         initVideoHero();
         initMenu();
         initInfiniteStream();
+        initMagneticElements();
+        initSpatialTilt();
         initScrollReveal();
         initLiveTimecode();
         initMtfDrawOn();
-        initTiltCards();
         initChipRipple();
         initWeightCounter();
         initClockPulse();
         initAutoRotateIntro();
         initHudTypewriter();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+        initAll();
     }
 })();

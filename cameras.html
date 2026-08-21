@@ -15,7 +15,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
-    <link rel="stylesheet" href="css/style.css?v=5.4">
+    <link rel="stylesheet" href="css/style.css?v=6.0">
 </head>
 
 <body>
@@ -251,7 +251,9 @@
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-    <script src="js/main.js?v=5.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/main.js?v=6.0"></script>
     <script>
         // 360 Interactive Turntable Logic
         const cameraAngles = [
@@ -275,18 +277,29 @@
             currentAngleIndex = (index + cameraAngles.length) % cameraAngles.length;
             const activeData = cameraAngles[currentAngleIndex];
 
-            // Smooth transition on image change
+            // Smooth GSAP transition on image change
             if (mainImg) {
-                mainImg.style.opacity = '0';
-                mainImg.style.transform = 'scale(0.96)';
-                setTimeout(() => {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(mainImg, {
+                        opacity: 0.3,
+                        scale: 0.96,
+                        duration: 0.1,
+                        ease: 'power1.in',
+                        onComplete: () => {
+                            mainImg.src = activeData.img;
+                            gsap.to(mainImg, { opacity: 1, scale: 1, duration: 0.22, ease: 'power2.out' });
+                        }
+                    });
+                } else {
                     mainImg.src = activeData.img;
-                    mainImg.style.opacity = '1';
-                    mainImg.style.transform = 'scale(1)';
-                }, 120);
-                mainImg.style.transition = 'opacity 0.15s ease, transform 0.2s ease';
+                }
             }
-            if (degBadge) degBadge.textContent = activeData.deg;
+            if (degBadge) {
+                degBadge.textContent = activeData.deg;
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(degBadge, { scale: 0.92, color: '#e5a93c' }, { scale: 1, color: '#ffffff', duration: 0.3, ease: 'back.out(1.5)' });
+                }
+            }
 
             thumbButtons.forEach((btn, idx) => {
                 const isActive = (idx === currentAngleIndex);
