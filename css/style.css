@@ -5,8 +5,7 @@
    Cool Always-Visible Swiss Floating Navbar + Reliable Technical Menu Button
    ========================================================================== */
 
-/* 1. Google Fonts Direct Import */
-@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Handjet:wght@100..900&family=Stack+Sans+Notch:wght@200..700&display=swap');
+/* 1. Schriftarten werden über <link> im <head> jeder HTML-Seite geladen (schneller als @import) */
 
 /* 2. Design Tokens */
 :root {
@@ -50,6 +49,9 @@
 
 html {
     color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scrollbar-gutter: stable;
 }
 
 /* Lenis Smooth Scroll Engine */
@@ -174,9 +176,12 @@ body.menu-open .nav-brand {
 
 @media (max-width: 768px) {
     .nav-logo {
-        height: auto;
-        max-height: 34px;
+        /* Explizite Höhe statt 'auto': SVG ohne intrinsische Größe kollabiert sonst auf 0x0 */
+        height: clamp(26px, 7vw, 34px);
+        width: auto;
         max-width: clamp(135px, 42vw, 210px);
+        object-fit: contain;
+        object-position: left center;
     }
 }
 
@@ -366,7 +371,7 @@ body.menu-open .nav-brand {
     .wheel-stage {
         width: 100%;
         max-width: min(380px, 92vw);
-        height: 440px;
+        height: min(62vh, 430px);
         perspective-origin: 50% 50%;
         justify-content: center;
         align-items: center;
@@ -522,6 +527,13 @@ body.menu-open .nav-brand {
     width: 100%;
     height: 950vh;
     background-color: #ffffff;
+}
+
+/* Mobil: Kürzerer Scroll-Weg für angenehmere Hero-Scrub-Erfahrung */
+@media (max-width: 768px) {
+    .video-hero-track {
+        height: 520vh;
+    }
 }
 
 .video-hero-sticky {
@@ -682,16 +694,33 @@ body.menu-open .nav-brand {
 
 @media (max-width: 768px) {
     .hero-stream-card {
-        width: calc(100vw - 3rem);
-        max-width: 320px;
+        width: calc(100vw - 2.75rem);
+        max-width: 310px;
+        padding: 0.85rem 1rem;
+        border-radius: 7px;
     }
+
     .hero-stream-left {
-        left: 1.5rem;
-        top: 35%;
+        left: max(1.25rem, env(safe-area-inset-left, 1.25rem));
+        right: auto;
+        top: auto;
+        bottom: clamp(6.5rem, 22vh, 10rem);
     }
+
     .hero-stream-right {
-        right: 1.5rem;
-        top: 65%;
+        left: auto;
+        right: max(1.25rem, env(safe-area-inset-right, 1.25rem));
+        top: clamp(5.5rem, 18vh, 9rem);
+        bottom: auto;
+    }
+
+    .stream-card-title {
+        font-size: 1.05rem;
+    }
+
+    .stream-card-desc {
+        font-size: 0.74rem;
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -816,70 +845,6 @@ body.menu-open .nav-brand {
     height: 18px;
 }
 
-    .hero-spec-item {
-        gap: 0.06rem;
-    }
-
-    .hero-spec-label {
-        font-family: 'Bitcount Single', monospace !important;
-        font-size: 0.52rem !important;
-        font-weight: 300 !important;
-        letter-spacing: 0.08em !important;
-        color: rgba(0, 0, 0, 0.45) !important;
-    }
-
-    .hero-spec-val {
-        font-family: 'Bitcount Single', monospace !important;
-        font-size: 0.68rem !important;
-        font-weight: 300 !important;
-        letter-spacing: 0.04em !important;
-        color: #000000 !important;
-    }
-}
-
-.hero-spec-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
-
-.hero-spec-label {
-    font-family: var(--font-small);
-    font-size: 0.68rem;
-    font-weight: 800;
-    color: rgba(0, 0, 0, 0.4);
-    letter-spacing: 0.12em;
-}
-
-.hero-spec-val {
-    font-family: var(--font-small);
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: #000000;
-    letter-spacing: 0.04em;
-}
-
-/* Blinkende _ Cursor Animation */
-.hero-underscore {
-    display: inline-block;
-    color: #000000;
-    font-weight: 900;
-    animation: blinkUnderscore 0.85s step-end infinite;
-    margin-left: 2px;
-}
-
-@keyframes blinkUnderscore {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-}
-
 /* 7. Main Content Layout (Index & Subpages) */
 .page-container {
     flex: 1;
@@ -961,6 +926,18 @@ p.subtitle {
     text-transform: uppercase;
 }
 
+/* Card Meta Label (kleine technische Sektions-Überschrift) */
+.card-meta {
+    display: block;
+    font-family: var(--font-small);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.55rem;
+}
+
 /* Action Button */
 .btn-action,
 .nav-btn {
@@ -985,6 +962,35 @@ p.subtitle {
     border-color: var(--border-dark);
     background-color: var(--bg-subtle);
     transform: translateY(-1px);
+}
+
+/* Primärer Submit-/CTA-Button (Optics, Cameras, Footage, Contact) */
+.form-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1rem 2rem;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-small);
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    cursor: pointer;
+    min-height: 48px;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.form-submit-btn:hover {
+    background: #2b2b2b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px -4px rgba(0, 0, 0, 0.15);
 }
 
 /* ==========================================================================
@@ -1657,6 +1663,31 @@ p.subtitle {
     transform: scale(1.015);
 }
 
+/* Bild-Caption Zeile unterhalb der Swiss Stage Bilder */
+.product-caption-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.product-caption-tag {
+    font-family: var(--font-small);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.product-caption-spec {
+    font-family: var(--font-small);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--accent-amber);
+}
+
 /* Widescreen CAD Blueprint Stage */
 .cad-blueprint-stage {
     position: relative;
@@ -1707,6 +1738,13 @@ p.subtitle {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
+}
+
+/* Rechte Hauptbühne des Optics Ateliers */
+.lens-hero-stage {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
 .lens-focal-selector {
@@ -1979,6 +2017,62 @@ p.subtitle {
     -webkit-mask-image: radial-gradient(ellipse 96% 96% at 50% 50%, #000 80%, rgba(0, 0, 0, 0.9) 92%, transparent 100%);
 }
 
+/* Kino-HUD Overlay (Footage Theater) */
+.image-hud-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.hud-top-row,
+.hud-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hud-bottom-row {
+    align-items: flex-end;
+}
+
+.hud-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-small);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.92);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.hud-reticle {
+    font-family: var(--font-hud);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.92);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    font-variant-numeric: tabular-nums;
+}
+
 /* ALLGEMEINE VERBLENDUNGS-KLASSE FÜR NATIVE UND DYNAMISCHE BILDER */
 .image-blend-soft {
     mix-blend-mode: multiply;
@@ -2049,9 +2143,59 @@ p.subtitle {
 
 @media (max-width: 960px) {
     .contact-terminal-split {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
     }
+}
+
+/* Kontakt-Formular Grid & Eingabefelder */
+.contact-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-family: var(--font-small);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text-color);
+    font-family: var(--font-small);
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-input::placeholder {
+    color: rgba(0, 0, 0, 0.32);
+}
+
+.form-input:focus {
+    border-color: var(--text-color);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
 }
 
 .lab-status-sidebar {
@@ -2361,6 +2505,36 @@ p.subtitle {
 .footer-mono {
     font-weight: 700;
     letter-spacing: 0.06em;
+}
+
+/* Rechtliche Seiten (Impressum & Datenschutz) */
+.modal-info-section h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.modal-info-section p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+.modal-info-section p strong {
+    color: var(--text-color);
+}
+
+.footer-inline-link {
+    color: var(--accent-blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-word;
+    transition: color 0.15s ease;
+}
+
+.footer-inline-link:hover {
+    color: #000000;
 }
 
 /* ==========================================================================
@@ -2946,7 +3120,7 @@ body {
     }
 
     .footer {
-        padding: 2.5rem 1.25rem 1.75rem !important;
+        padding: 2.5rem max(1.25rem, env(safe-area-inset-left, 1.25rem)) calc(1.75rem + env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-right, 1.25rem)) !important;
     }
 
     .footer-container {
@@ -2968,8 +3142,83 @@ body {
         margin-top: 2rem !important;
     }
 
+    /* Kompakter Stream-Status-Badge auf Mobilgeräten */
+    .stream-control-badge {
+        align-self: flex-start;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .stream-status-text {
+        font-size: 0.62rem;
+        letter-spacing: 0.06em;
+    }
+
+    /* Tabellen: Feste Mindestbreite für sauberes horizontales Wischen */
+    .table-scroll-wrapper table {
+        min-width: 640px;
+    }
+
+    .specs-table th,
+    .specs-table td {
+        padding: 0.85rem 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    /* Turntable kompakt auf Mobilgeräten */
+    .turntable-stage-wrapper {
+        padding: 1.5rem 1rem 1.25rem 1rem !important;
+    }
+
+    .turntable-drag-surface {
+        height: 300px;
+    }
+
+    .turntable-main-img {
+        max-height: 270px;
+    }
+
     .table-scroll-cue {
         display: block;
+    }
+
+    /* Bildhöhen auf kleinen Screens begrenzen */
+    .swiss-stage-img {
+        max-height: 320px !important;
+    }
+
+    .cad-blueprint-stage {
+        padding: 1.5rem 1.15rem !important;
+        margin: 1.5rem 0 2rem 0 !important;
+    }
+
+    .cad-blueprint-img {
+        max-height: 330px !important;
+    }
+
+    .mtf-chart-canvas-box {
+        height: 200px;
+    }
+
+    .vfx-packet-console {
+        font-size: 0.72rem;
+        padding: 1.25rem 1.15rem;
+    }
+
+    /* Footage-Kino: Höheres Seitenverhältnis & kompakteres HUD */
+    .footage-aspect-container {
+        aspect-ratio: 16 / 10;
+    }
+
+    .image-hud-overlay {
+        padding: 0.85rem 1rem;
+    }
+
+    .hud-bottom-row {
+        margin-bottom: 0 !important;
+    }
+
+    .footage-hero-theater {
+        margin: 2rem 0 !important;
     }
 
     .turntable-controls-bar {
@@ -3004,6 +3253,18 @@ body {
     .contact-form-grid {
         grid-template-columns: 1fr !important;
         gap: 1rem;
+    }
+
+    /* 16px verhindert Auto-Zoom auf iOS beim Fokussieren */
+    .form-input {
+        font-size: 16px;
+        padding: 0.85rem 1rem;
+        min-height: 48px;
+    }
+
+    .form-submit-btn {
+        width: 100%;
+        padding: 1rem 1.5rem;
     }
 
     .config-summary-bar {
@@ -3118,6 +3379,91 @@ body {
     .cad-interferometer-hud {
         font-size: 0.65rem;
         padding: 0.35rem 0.6rem;
+    }
+
+    /* Kompaktere Typografie auf sehr kleinen Screens */
+    .stream-title-group h2 {
+        font-size: clamp(1.65rem, 7.4vw, 2.2rem);
+    }
+
+    .hero-minimal h1 {
+        font-size: clamp(1.75rem, 7.6vw, 2.5rem) !important;
+    }
+
+    .page-container,
+    .stream-page-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .navbar {
+        gap: 0.75rem;
+    }
+
+    .menu-btn {
+        padding: 0.4rem 0.9rem;
+        letter-spacing: 0.06em;
+    }
+
+    /* HUD-Tags auf kleinen Cinema-Frames umbrechen statt überlappen */
+    .hud-top-row,
+    .hud-bottom-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.45rem;
+    }
+
+    .hud-tag,
+    .hud-reticle {
+        font-size: 0.64rem;
+        max-width: 100%;
+    }
+
+    .config-chips-group {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .config-summary-bar > div:last-child {
+        width: 100%;
+        justify-content: space-between;
+        border-top: 1px solid var(--border-color);
+        padding-top: 0.85rem;
+    }
+}
+
+/* Ultra-kleine Geräte (iPhone SE & Co.) */
+@media (max-width: 380px) {
+    .stream-card {
+        flex: 0 0 258px !important;
+        width: 258px !important;
+    }
+
+    .stream-card .card-title {
+        font-size: 1.3rem;
+    }
+
+    .stream-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .wheel-link {
+        font-size: clamp(1.15rem, 5vw, 1.5rem) !important;
+    }
+
+    .footer-nav-clean {
+        flex-wrap: wrap;
+        row-gap: 0.4rem;
+    }
+
+    .turntable-drag-surface {
+        height: 240px;
+    }
+
+    .turntable-main-img {
+        max-height: 215px;
     }
 }
 

@@ -422,6 +422,24 @@
         let isAnimating = false;
         let hoveredIndex = -1;
 
+        // Responsive Wheel-Metriken: Radius passt sich kleinen Screens an
+        let wheelMetrics = { radiusY: 250, depth: 95 };
+        function updateWheelMetrics() {
+            const vw = window.innerWidth || 1280;
+            const vh = window.innerHeight || 800;
+            if (vw <= 768) {
+                wheelMetrics.radiusY = Math.round(Math.min(185, Math.max(115, vh * 0.27)));
+                wheelMetrics.depth = 65;
+            } else {
+                wheelMetrics.radiusY = 250;
+                wheelMetrics.depth = 95;
+            }
+        }
+        updateWheelMetrics();
+        window.addEventListener('resize', () => {
+            updateWheelMetrics();
+        }, { passive: true });
+
         function renderWheel() {
             currentAngle += (targetAngle - currentAngle) * 0.16;
 
@@ -433,8 +451,8 @@
                 const rad = visibleAngle * (Math.PI / 180);
                 const cosVal = Math.cos(rad);
 
-                const translateY = Math.sin(rad) * 250;
-                const translateZ = (cosVal - 1) * 95;
+                const translateY = Math.sin(rad) * wheelMetrics.radiusY;
+                const translateZ = (cosVal - 1) * wheelMetrics.depth;
                 const rotateX = -visibleAngle * 0.72;
                 const scale = 0.82 + 0.26 * cosVal;
                 const opacity = 0.55 + 0.45 * Math.pow(Math.max(cosVal, 0), 1.8);
