@@ -16,7 +16,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
-    <link rel="stylesheet" href="css/style.css?v=8.0">
+    <link rel="stylesheet" href="css/style.css?v=8.1">
 </head>
 
 <body>
@@ -108,11 +108,10 @@
                         <span>⇄ ZIEHEN ZUM 360° DREHEN</span>
                     </div>
 
-                    <!-- Direct Drag Area -->
+                    <!-- Direct Drag Area — Interactive 3D Model -->
                     <div class="turntable-drag-surface" id="turntableSurface">
-                        <img src="assets/images/camera_01_front_transparent.png"
-                            alt="NoMotion Model 100 360 Turntable View" class="turntable-main-img image-blend-soft"
-                            id="activeTurntableImg">
+                        <div class="turntable-canvas-wrap" id="turntableCanvasWrap" aria-label="Interaktives 3D-Modell der NoMotion Model 100 – ziehen zum Drehen, scrollen zum Zoomen"></div>
+                        <div class="tt-loading-shimmer" id="ttLoading"><span>3D // LÄDT …</span></div>
                     </div>
 
                     <!-- Turntable Controls Bar (Filmstrip + Degrees Badge + Nav Arrows) -->
@@ -122,7 +121,7 @@
                             <button class="turntable-nav-btn" id="prevAngleBtn"
                                 aria-label="Vorheriger Winkel">‹</button>
                             <button class="turntable-nav-btn" id="nextAngleBtn" aria-label="Nächster Winkel">›</button>
-                            <span class="turntable-degree-badge" id="turntableDegBadge">0° // FRONT</span>
+                            <span class="turntable-degree-badge" id="turntableDegBadge">000° // FRONT</span>
                         </div>
 
                         <!-- 7-Angle Thumbnails Filmstrip -->
@@ -288,108 +287,11 @@
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="js/main.js?v=8.0"></script>
-    <script>
-        // 360 Interactive Turntable Logic
-        const cameraAngles = [
-            { img: 'assets/images/camera_01_front_transparent.png', deg: '0° // FRONT' },
-            { img: 'assets/images/camera_05_isometric_transparent.png', deg: '45° // ISOMETRIC' },
-            { img: 'assets/images/camera_04_side_transparent.png', deg: '90° // PROFILE' },
-            { img: 'assets/images/camera_02_rear_transparent.png', deg: '180° // REAR' },
-            { img: 'assets/images/camera_06_low_hero_transparent.png', deg: '225° // LOW HERO' },
-            { img: 'assets/images/camera_03_top_transparent.png', deg: 'TOP // DIAL' },
-            { img: 'assets/images/camera_10_bottom_transparent.png', deg: 'BTM // MOUNT' }
-        ];
+    <script src="js/main.js?v=8.1"></script>
 
-        let currentAngleIndex = 0;
-        const mainImg = document.getElementById('activeTurntableImg');
-        const degBadge = document.getElementById('turntableDegBadge');
-        const thumbButtons = document.querySelectorAll('.angle-thumb-btn');
-        const dragSurface = document.getElementById('turntableSurface');
-        const dragPrompt = document.getElementById('dragPrompt');
-
-        function setAngle(index) {
-            currentAngleIndex = (index + cameraAngles.length) % cameraAngles.length;
-            const activeData = cameraAngles[currentAngleIndex];
-
-            // Smooth GSAP transition on image change
-            if (mainImg) {
-                if (typeof gsap !== 'undefined') {
-                    gsap.to(mainImg, {
-                        opacity: 0.3,
-                        scale: 0.96,
-                        duration: 0.1,
-                        ease: 'power1.in',
-                        onComplete: () => {
-                            mainImg.src = activeData.img;
-                            gsap.to(mainImg, { opacity: 1, scale: 1, duration: 0.22, ease: 'power2.out' });
-                        }
-                    });
-                } else {
-                    mainImg.src = activeData.img;
-                }
-            }
-            if (degBadge) {
-                degBadge.textContent = activeData.deg;
-                if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(degBadge, { scale: 0.92, color: '#e5a93c' }, { scale: 1, color: '#ffffff', duration: 0.3, ease: 'back.out(1.5)' });
-                }
-            }
-
-            thumbButtons.forEach((btn, idx) => {
-                const isActive = (idx === currentAngleIndex);
-                btn.classList.toggle('is-active', isActive);
-                if (isActive) {
-                    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                }
-            });
-        }
-
-        // Thumbnails Click
-        thumbButtons.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const idx = parseInt(btn.getAttribute('data-index'), 10);
-                setAngle(idx);
-            });
-        });
-
-        // Prev / Next Buttons
-        const prevBtn = document.getElementById('prevAngleBtn');
-        const nextBtn = document.getElementById('nextAngleBtn');
-        if (prevBtn) prevBtn.addEventListener('click', () => setAngle(currentAngleIndex - 1));
-        if (nextBtn) nextBtn.addEventListener('click', () => setAngle(currentAngleIndex + 1));
-
-        // Drag to Rotate 360 Gesture
-        let isDragging = false;
-        let startX = 0;
-        const stepThreshold = 35; // Responsive sensitivity
-
-        if (dragSurface) {
-            dragSurface.addEventListener('pointerdown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                dragSurface.setPointerCapture(e.pointerId);
-                if (dragPrompt) dragPrompt.style.opacity = '0';
-            });
-
-            dragSurface.addEventListener('pointermove', (e) => {
-                if (!isDragging) return;
-                const diffX = e.clientX - startX;
-                if (Math.abs(diffX) >= stepThreshold) {
-                    if (diffX > 0) {
-                        setAngle(currentAngleIndex + 1);
-                    } else {
-                        setAngle(currentAngleIndex - 1);
-                    }
-                    startX = e.clientX;
-                }
-            });
-
-            const stopDrag = () => { isDragging = false; };
-            dragSurface.addEventListener('pointerup', stopDrag);
-            dragSurface.addEventListener('pointercancel', stopDrag);
-        }
-    </script>
+    <!-- Interaktive 3D Studio-Kamera Engine (Three.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/camera3d.js?v=8.3"></script>
 </body>
 
 </html>

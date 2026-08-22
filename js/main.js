@@ -1209,8 +1209,12 @@
 
     /* ==========================================================================
        14. CAMERAS 360° AUTO-ROTATE INTRO
+       (Legacy: nur für statische Bild-Turntables ohne WebGL-3D-Modul)
        ========================================================================== */
     function initAutoRotateIntro() {
+        // Das interaktive 3D-Modell (camera3d.js) übernimmt die Intro-Rotation selbst.
+        if (document.getElementById('turntableCanvasWrap')) return;
+
         const thumbButtons = document.querySelectorAll('.angle-thumb-btn');
         if (thumbButtons.length < 2) return;
 
